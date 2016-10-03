@@ -29,3 +29,15 @@ class BaseProfile(models.Model):
 class Profile(BaseProfile):
     def __str__(self):
         return "{}'s profile". format(self.user)
+
+class University(models.Model):
+    country = models.CharField("Country Abbreviation", max_length=2, blank=True, null=True)
+    name = models.CharField("Name", max_length=200, blank=True, null=True)
+    website = models.CharField("Website", max_length=200, blank=True, null=True)
+
+    def __str__(self):
+        return "{0}, {1} ({2})".format(self.country, self.name, self.website)
+
+
+    class Meta:
+        ordering = ['country', 'name']
