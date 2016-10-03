@@ -17,6 +17,9 @@ class BaseProfile(models.Model):
                                 blank=True)
     bio = models.CharField("Short Bio", max_length=200, blank=True, null=True)
     email_verified = models.BooleanField("Email verified", default=False)
+    skills = models.CharField("Skills", max_length=200, blank=True, null=True)
+    work_years = models.DecimalField("Years Worked", max_digits=4, decimal_places=2, blank=True, null=True)
+    degree = models.CharField("Degree", max_length=200, blank=True, null=True)
 
     class Meta:
         abstract = True
