@@ -29,12 +29,6 @@ class BaseProfile(models.Model):
     def resume_name(self):
         return os.path.basename(self.resume.name)
 
-    def resume_link(self):
-        if self.resume:
-            return "<a href='{0}'>{1}</a>".format(self.resume.url, self.resume_name())
-        else:
-            return "No file"
-
     class Meta:
         abstract = True
 
