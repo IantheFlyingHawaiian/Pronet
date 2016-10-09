@@ -3,6 +3,7 @@ from django.utils.encoding import python_2_unicode_compatible
 import uuid
 from django.db import models
 from django.conf import settings
+import os
 
 
 class BaseProfile(models.Model):
@@ -20,6 +21,19 @@ class BaseProfile(models.Model):
     skills = models.CharField("Skills", max_length=200, blank=True, null=True)
     work_years = models.DecimalField("Years Worked", max_digits=4, decimal_places=2, blank=True, null=True)
     degree = models.CharField("Degree", max_length=200, blank=True, null=True)
+    resume = models.FileField("Resume",
+                              upload_to='resumes/%Y-%m-%d/',
+                              null = True,
+                              blank = True)
+
+    def resume_name(self):
+        return os.path.basename(self.resume.name)
+
+    def resume_link(self):
+        if self.resume:
+            return "<a href='{0}'>{1}</a>".format(self.resume.url, self.resume_name())
+        else:
+            return "No file"
 
     class Meta:
         abstract = True

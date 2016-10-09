@@ -2,7 +2,7 @@
 <html lang="en">
     {% load staticfiles %}
     {% load thumbnail %}
-    
+
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -66,7 +66,7 @@
 			{{ user.get_full_name|truncatechars:20 }}
 			<span class="caret"></span>
 		    </a>
-		    
+
                   <ul class="dropdown-menu" role="menu">
                     <li><a href="{% url 'profiles:show_self' %}">Profile</a></li>
                     <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
@@ -94,7 +94,7 @@
 
     {% block splash %}
     {% endblock splash %}
-    
+
     {% block container %}
     <div class="container">
 
@@ -114,13 +114,13 @@
             <div class="footer">
         <div class="row">
           <div class="col-lg-6">
-              <p>&copy; Company {% now 'Y' %}</p>
+              <p>&copy; Team Ian {% now 'Y' %}</p>
           </div>
-          <div class="col-lg-6 text-right">
+          <!-- <div class="col-lg-6 text-right">
             Connect with us on
             <a href="#"><i class="fa fa-facebook"></i> Facebook</a> or
             <a href="#"><i class="fa fa-twitter"></i> Twitter</a>
-          </div>
+        </div> -->
         </div>
             </div>
       </div>
@@ -135,5 +135,3 @@
     {% endblock scripts %}
   </body>
 </html>
-
-

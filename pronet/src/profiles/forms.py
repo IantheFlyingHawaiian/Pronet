@@ -36,9 +36,10 @@ class ProfileForm(forms.ModelForm):
             Field('skills'),
             Field('work_years'),
             Field('degree'),
+            Field('resume'),
             Submit('update', 'Update', css_class="btn-success"),
             )
 
     class Meta:
         model = models.Profile
-        fields = ['picture', 'bio', 'skills', 'work_years', 'degree',]
+        fields = ['picture', 'bio', 'skills', 'work_years', 'degree', 'resume',]
