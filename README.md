@@ -4,7 +4,7 @@ A psuedo Linked-In
 Installation Guide for Centos 7 Server
 
 #First Install pip and Python 3.X on CentOS 7
-sudo yum install python34-setuptools
+sudo yum install python34-setuptools /p
 sudo easy_install pip
 
 #Create venv using python 3.4
