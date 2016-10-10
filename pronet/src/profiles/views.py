@@ -24,7 +24,6 @@ class ShowProfile(LoginRequiredMixin, generic.TemplateView):
         kwargs["show_user"] = user
         return super(ShowProfile, self).get(request, *args, **kwargs)
 
-
 class EditProfile(LoginRequiredMixin, generic.TemplateView):
     template_name = "profiles/edit_profile.html"
     http_method_names = ['get', 'post']
