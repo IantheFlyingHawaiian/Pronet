@@ -29,6 +29,7 @@ class BaseProfile(models.Model):
     def resume_name(self):
         return os.path.basename(self.resume.name)
 
+
     class Meta:
         abstract = True
 
@@ -37,6 +38,7 @@ class BaseProfile(models.Model):
 class Profile(BaseProfile):
     def __str__(self):
         return "{}'s profile". format(self.user)
+
 
 class University(models.Model):
     country = models.CharField("Country Abbreviation", max_length=2, blank=True, null=True)
@@ -49,3 +51,14 @@ class University(models.Model):
 
     class Meta:
         ordering = ['country', 'name']
+
+
+class WorkExperience(models.Model):
+    profile = models.ForeignKey(Profile)
+    start_date = models.DateField('Start Date')
+    end_date = models.DateField('End Date', blank=True, null=True)
+    current = models.BooleanField('Current Position', default=False)
+    location = models.CharField('Location', max_length=200)
+    details = models.TextField('Details', blank=True)
+    company = models.CharField('Company', max_length=200)
+    title = models.CharField('Position Titile', max_length=200)
