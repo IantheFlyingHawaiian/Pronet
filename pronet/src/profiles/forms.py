@@ -33,20 +33,13 @@ class ProfileForm(forms.ModelForm):
         self.helper.layout = Layout(
             Field('picture'),
             Field('bio'),
-<<<<<<< Updated upstream
-=======
             Field('skills'),
             Field('work_years'),
             Field('degree'),
-            Field('interests'),
->>>>>>> Stashed changes
+            Field('resume'),
             Submit('update', 'Update', css_class="btn-success"),
             )
 
     class Meta:
         model = models.Profile
-<<<<<<< Updated upstream
-        fields = ['picture', 'bio']
-=======
-        fields = ['picture', 'bio', 'skills', 'work_years', 'degree', 'interests']
->>>>>>> Stashed changes
+        fields = ['picture', 'bio', 'skills', 'work_years', 'degree', 'resume',]

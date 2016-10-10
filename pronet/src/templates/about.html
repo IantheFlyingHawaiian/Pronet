@@ -17,7 +17,7 @@
     <div class="row">
       <div class="col-md-12 text-center">
         <h1>{% include "_brandname.html" %}</h1>
-        <p class="lead">An Awesome Tagline Goes Here</p>
+        <p class="lead">Improved networking, for professionals.</p>
       </div>
     </div>
   </div>
@@ -27,78 +27,18 @@
   <div class="container">
     <div class="row">
       <div class="col-md-12 text-center">
-        <h2>Meet The Team</h2>
-        <p class="lead">The Wonderful People Behind the Site</p>
+        <h2>About The Team</h2>
+        <p class="lead">From CMPE/SE 133 Section 1, Fall 2016.</p>
       </div>
     </div>
     <div class="row">
       <div class="col-lg-4">
-        <div class="text-center"><img class="img-circle centered" src="http://lorempixel.com/128/128/people/9/" alt="profile pic"></div>
-        <p class="heavy text-center">Cassidy Coder</p>
-        <h2>Front-end developer</h2>
-        <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-      </div>
-      <div class="col-lg-4">
-        <div class="text-center"><img class="img-circle centered" src="http://lorempixel.com/128/128/people/2/" alt="profile pic"></div>
-        <p class="heavy text-center">James King</p>
-        <h2>CEO</h2>
-        <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-      </div>
-      <div class="col-lg-4">
-        <div class="text-center"><img class="img-circle centered" src="http://lorempixel.com/128/128/people/1/" alt="profile pic"></div>
-        <p class="heavy text-center">Kate Lamport</p>
-        <h2>Front-end designer</h2>
-        <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+        <h2>Team Ian</h2>
+        <p>A team put together from students from Professor Meng's software engineering 2 course, doing their best to create a web application in a single semester in addition to other classes.</p>
       </div>
     </div>
     </div>
   </div>
 </div>
 
-<div id="sec3">
-  <div class="container">
-    <div class="row">
-      <div id="map-outer" class="col-md-12">
-        <div id="address" class="col-md-4">
-          <h2>Our Location</h2>
-          <address>
-            <strong>Edge Solutions Ltd.</strong><br>
-            Taj Mahal<br>
-            Agra<br>
-            Uttar Pradesh<br>
-            India - 282001<br>
-            <abbr>P:</abbr> +91 0562 222 6431
-          </address>
-        </div>
-        <div id="map-container" class="col-md-8"></div>
-      </div>
-    </div>
-  </div>
-</div>
 {% endblock container %}
-
-{% block scripts %}
-  <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
-  <script>
-
-   function init_map() {
-     // Enter the latitude and longitude of your office here
-	 var myLocation = new google.maps.LatLng(27.176141, 78.042370);
-
-     var mapOptions = {
-          center: myLocation,
-          zoom: 14
-     };
-
-	 var marker = new google.maps.Marker({
-	   position: myLocation,
-	   title:"We are here"});
-
-     var map = new google.maps.Map(document.getElementById("map-container"),
-                                   mapOptions);
-	 marker.setMap(map);
-   }
-
-   google.maps.event.addDomListener(window, 'load', init_map);
-  </script>
-{% endblock scripts %}

@@ -15,5 +15,9 @@ urlpatterns = [
     url(r'^', include(accounts.urls, namespace='accounts')),
 ]
 
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns.append(url(r'^__debug__/', include(debug_toolbar.urls)))
+
 # User-uploaded files like profile pics need to be served in development
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
