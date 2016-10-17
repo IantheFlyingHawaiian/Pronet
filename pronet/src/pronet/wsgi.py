@@ -10,7 +10,7 @@ import os
 import sys
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "pronet.settings.production")
 
-sys.path.insert(0, '/opt/python/current/app')
+sys.path.insert(0, '/opt/python/current/pronet/src/pronet/wsgi.py')
 
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
