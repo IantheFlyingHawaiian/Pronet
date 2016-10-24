@@ -1,5 +1,14 @@
 {% extends "base.html" %}
 
+{% block extrahead %}
+    <!-- Removing padding for homepage since it actually messes things up slightly -->
+    <style>
+        body {
+            padding-top: 0px;
+        }
+    </style>
+{% endblock %}
+
 {% load staticfiles %}
 {% load crispy_forms_tags %}
 
@@ -8,6 +17,7 @@
 {% block navbar-left %}
   {% include "_navbar.html" with active_link="home" %}
 {% endblock %}
+
 
 {% block navbar-right %}
   {% if not user.is_authenticated %}

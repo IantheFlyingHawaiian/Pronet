@@ -46,6 +46,8 @@ class SignUpView(bracesviews.AnonymousRequiredMixin,
         password = form.cleaned_data["password1"]
         user = auth.authenticate(email=username, password=password)
         auth.login(self.request, user)
+        user.profile.premium_flag = form.cleaned_data["premium_flag"]
+        user.profile.save()
         return r
 
 

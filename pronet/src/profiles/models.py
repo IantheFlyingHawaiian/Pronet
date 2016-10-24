@@ -25,6 +25,7 @@ class BaseProfile(models.Model):
                               upload_to='resumes/%Y-%m-%d/',
                               null = True,
                               blank = True)
+    premium_flag = models.BooleanField("Premium User", default=False)
 
     def resume_name(self):
         return os.path.basename(self.resume.name)
@@ -37,7 +38,7 @@ class BaseProfile(models.Model):
 @python_2_unicode_compatible
 class Profile(BaseProfile):
     def __str__(self):
-        return "{}'s profile". format(self.user)
+        return "{0}'s profile".format(self.user)
 
 
 class University(models.Model):
@@ -62,3 +63,6 @@ class WorkExperience(models.Model):
     details = models.TextField('Details', blank=True)
     company = models.CharField('Company', max_length=200)
     title = models.CharField('Position Titile', max_length=200)
+
+    def __str__(self):
+        return  "Work for {0} from {1} to {2} at {3}".format(self.profile, self.start_date, self.end_date, self.company)
