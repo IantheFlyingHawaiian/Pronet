@@ -55,23 +55,14 @@ class WorkExperienceForm(forms.ModelForm):
         self.helper = FormHelper()
         self.helper.form_tag = False
         self.helper.layout = Layout(
-            #Field('start_date'),
-            #Field('end_date'),
-            #Field('current'),
-            #Field('location'),
-            #Field('details'),
-            #Field('company'),
-            #Field('title'),
-            MultiField(
-                'Work Experience',
-                'start_date',
-                'end_date',
-                'current',
-                'location',
-                'details',
-                'company',
-                'title',
-            ),
+            Field('start_date'),
+            Field('end_date'),
+            Field('current'),
+            Field('location'),
+            Field('details'),
+            Field('company'),
+            Field('title'),
+            Submit('update', 'Update', css_class="btn-success"),
         )
 
     class Meta:

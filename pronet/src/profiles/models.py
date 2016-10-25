@@ -63,6 +63,7 @@ class WorkExperience(models.Model):
     details = models.TextField('Details', blank=True)
     company = models.CharField('Company', max_length=200)
     title = models.CharField('Position Titile', max_length=200)
+    slug = models.UUIDField(default=uuid.uuid4, blank=True, editable=False)
 
     def __str__(self):
         return  "Work for {0} from {1} to {2} at {3}".format(self.profile, self.start_date, self.end_date, self.company)

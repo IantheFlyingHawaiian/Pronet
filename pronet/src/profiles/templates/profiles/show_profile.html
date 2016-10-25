@@ -98,7 +98,7 @@
                             <p>{{ w.start_date }} - {{ w.end_date }}</p>
                         {% endif %}
                         <p>{{ w.details }}</p>
-                        <a href="{% url 'profiles:add_work_self' %}">
+                	    <a href="{% url 'profiles:edit_work_self' w.slug %}">
                             <span class="glyphicon glyphicon-edit" aria-hidden="true" title="Edit Work Experience"></span> <span class="sr-only">Edit</span>
                         </a>
                         <a href="{% url 'profiles:add_work_self' %}">

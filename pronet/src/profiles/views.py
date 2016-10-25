@@ -62,14 +62,7 @@ class EditProfile(LoginRequiredMixin, generic.TemplateView):
 
 class AddWorkExperience(LoginRequiredMixin, generic.TemplateView):
     template_name = "profiles/add_workexperience.html"
-    http_method_names = ['get', 'post']
-
-    def get(self, request, *args, **kwargs):
-        user = self.request.user
-        if "workexperience_form" not in kwargs:
-            WorkExperienceFormSet = formset_factory(forms.WorkExperienceForm)
-            kwargs["workexperience_form"] = WorkExperienceFormSet()
-        return super(AddWorkExperience, self).get(request, *args, **kwargs)
+    http_method_names = ['post']
 
     def post(self, request, *args, **kwargs):
         user = self.request.user
@@ -89,4 +82,34 @@ class AddWorkExperience(LoginRequiredMixin, generic.TemplateView):
         profile.user = user
         profile.save()
         messages.success(request, "Profile details saved!")
+        return redirect("profiles:show_self")
+
+
+class EditWorkExperience(LoginRequiredMixin, generic.TemplateView):
+    template_name = "profiles/edit_workexperience.html"
+    http_method_names = ['get', 'post']
+
+    def get(self, request, *args, **kwargs):
+        user = self.request.user
+        if "workexperience_form" not in kwargs:
+            slug = request.get_full_path().lstrip('users/me/edit/work/')
+            work_experience = get_object_or_404(models.WorkExperience, slug=slug)
+            kwargs["workexperience_form"] = forms.WorkExperienceForm(instance=work_experience)
+        return super(EditWorkExperience, self).get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        user = self.request.user
+        slug = request.get_full_path().lstrip('users/me/edit/work/')
+        work_experience = get_object_or_404(models.WorkExperience, slug=slug)
+        workexperience_form = forms.WorkExperienceForm(request.POST,
+                                                        request.FILES,
+                                                        instance=work_experience)
+        if not (workexperience_form.is_valid()):
+            messages.error(request, "There was a problem with the form. "
+                           "Please check the details.")
+            workexperience_form = forms.WorkExperienceForm(instance=work_experience)
+            return super(EditWorkExperience, self).get(request, workexperience_form=workexperience_form)
+        # Form is fine. Time to save!
+        workexperience_form.save()
+        messages.success(request, "Work experience details saved!")
         return redirect("profiles:show_self")
