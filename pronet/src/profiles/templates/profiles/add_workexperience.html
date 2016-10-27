@@ -22,7 +22,7 @@
 
         <!-- edit form column -->
         <div class="col-md-9">
-            <form method="post">
+            <form method="post">{% csrf_token %}
                 {% crispy workexperience_form %}
             </form>
         </div>
