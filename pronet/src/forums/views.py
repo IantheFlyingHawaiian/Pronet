@@ -6,3 +6,5 @@ from django.shortcuts import render
 def forums(request):
         template_name = "forums/forumList.html"
         return render(request, template_name)
+
+#hi there
