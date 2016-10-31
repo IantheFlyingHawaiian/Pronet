@@ -10,7 +10,7 @@
 {% block container %}
 
 <div class="container">
-    <h1 class="text-primary">Edit Profile</h1>
+    <h1 class="text-primary">Add Work Experience</h1>
     <hr>
     <div class="row">
         <!-- left column -->
@@ -22,18 +22,9 @@
 
         <!-- edit form column -->
         <div class="col-md-9">
-            <h3>Personal info</h3>
             <form enctype="multipart/form-data" method="post">
-	            {% crispy user_form %}
-	            {% crispy profile_form %}
+                {% crispy workexperience_form %}
             </form>
-        </div>
-    </div>
-</div>
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <a class="btn btn-default pull-right" href="{% url 'accounts:password-change' %}">Change Password</a>
         </div>
     </div>
 </div>

@@ -80,7 +80,7 @@ INSTALLED_APPS = (
     'search',
     'forums',
 
-    'django.contrib.spirit'
+
 )
 
 MIDDLEWARE_CLASSES = (
