@@ -62,16 +62,22 @@
                 {% endif %}
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle profile-menu" data-toggle="dropdown">
-			<img src="{% thumbnail user.profile.picture|default:'default_profile.png' 30x30 crop %}" alt="" />
-			{{ user.get_full_name|truncatechars:20 }}
-			<span class="caret"></span>
-		    </a>
-
-                  <ul class="dropdown-menu" role="menu">
-                    <li><a href="{% url 'profiles:show_self' %}">Profile</a></li>
-                    <li><a href="{% url 'search:search' %}">Search</a></li>
-                    <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
-                  </ul>
+			          <img src="{% thumbnail user.profile.picture|default:'default_profile.png' 30x30 crop %}" alt="" />
+                      {{ user.get_full_name|truncatechars:20 }}
+			          <span class="caret"></span>
+		            </a>
+                    <ul class="dropdown-menu" role="menu">
+                      <li><a href="{% url 'profiles:show_self' %}">Profile</a></li>
+                      <li class="dropdown-submenu">
+                        <a class=test tabindex="-1" href="#">Search <span class="caret"></span></a>
+                        <ul class="dropdown">
+                          <li><a tabindex="-1" href="{% url 'search:search' %}"> Name Search </a></li>
+                          <li><a tabindex="-1" href="{% url 'search:searchyears' %}"> Skill Search </a></li>
+                          <li><a tabindex="-1" href="{% url 'search:search' %}"> Job Search </a></li>
+                        </ul>
+                      </li>
+                      <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
+                    </ul>
                 </li>
               {% endif %}
             {% endblock %}
@@ -80,6 +86,17 @@
         </div><!--/.nav-collapse -->
         {% endblock %}
     </div>
+    <!--
+    <script>
+      $(document).ready(function(){
+        $('.dropdown-submenu a.test').on("click", function(e){
+          $(this).next('ul').toggle();
+          e.stopPropagation();
+          e.preventDefault();
+        });
+      });
+    </script>
+    -->
     {% endblock navbar %}
 
     {% block messages %}
