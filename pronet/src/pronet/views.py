@@ -8,7 +8,7 @@ class HomePage(generic.TemplateView):
 class AboutPage(generic.TemplateView):
     template_name = "about.html"
 
-class ForumPage(generic.TemplateView):
+class ForumsPage(generic.TemplateView):
     template_name = "forums/forumList.html"
 
 
