@@ -78,6 +78,9 @@ INSTALLED_APPS = (
     'profiles',
     'accounts',
     'search',
+    'forums',
+
+
 )
 
 MIDDLEWARE_CLASSES = (

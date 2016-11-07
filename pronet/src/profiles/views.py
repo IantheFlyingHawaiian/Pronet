@@ -3,6 +3,7 @@ from django.views import generic
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.forms.models import formset_factory
 from . import forms
 from . import models
 
@@ -41,6 +42,38 @@ class EditProfile(LoginRequiredMixin, generic.TemplateView):
         user_form = forms.UserForm(request.POST, instance=user)
         profile_form = forms.ProfileForm(request.POST,
                                          request.FILES,
+                                         instance=user.profile)
+        if not (user_form.is_valid() and profile_form.is_valid()):
+            messages.error(request, "There was a problem with the form. "
+                           "Please check the details.")
+            user_form = forms.UserForm(instance=user)
+            profile_form = forms.ProfileForm(instance=user.profile)
+            return super(EditProfile, self).get(request,
+                                                user_form=user_form,
+                                                profile_form=profile_form)
+        # Both forms are fine. Time to save!
+        user_form.save()
+        profile = profile_form.save(commit=False)
+        profile.user = user
+        profile.save()
+        messages.success(request, "Profile details saved!")
+        return redirect("profiles:show_self")
+
+
+class AddWorkExperience(LoginRequiredMixin, generic.TemplateView):
+    template_name = "profiles/add_workexperience.html"
+    http_method_names = ['get', 'post']
+
+    def get(self, request, *args, **kwargs):
+        user = self.request.user
+        if "workexperience_form" not in kwargs:
+            WorkExperienceFormSet = formset_factory(forms.WorkExperienceForm)
+            kwargs["workexperience_form"] = WorkExperienceFormSet()
+        return super(AddWorkExperience, self).get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        user = self.request.user
+        profile_form = forms.ProfileForm(request.POST,
                                          instance=user.profile)
         if not (user_form.is_valid() and profile_form.is_valid()):
             messages.error(request, "There was a problem with the form. "
