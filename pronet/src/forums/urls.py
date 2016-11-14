@@ -3,7 +3,7 @@ from . import views
 
 urlpatterns =[
     # ex: /forums/
-    #url(r'^$', views.forums, name='forums'),
+    url(r'^$', views.forums, name='forums'),
     # ex: /forums/index
     url(r'^index$', views.index, name='index'),
     # ex: /forums/1/

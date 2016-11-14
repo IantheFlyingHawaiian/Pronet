@@ -5,9 +5,9 @@ from django.shortcuts import render
 from .models import Topic
 from django.shortcuts import get_object_or_404
 
-# def forums(request):
-#     template_name = "forums/forumList.html"
-#     return render(request, template_name)
+def forums(request):
+     template_name = "forums/forumList.html"
+     return render(request, template_name)
 
 #hi there
 def index(request):
