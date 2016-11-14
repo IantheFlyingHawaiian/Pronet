@@ -12,7 +12,24 @@
         <div class="col-sm-10">
             <h1>{{ show_user.get_full_name }}</h1>
             {% if editable %}
+                <!-- Looking at your own profile -->
                 <a href="{% url 'profiles:edit_self' %}" class="btn btn-info">Edit Profile</a>
+            {% elif connection %}
+                {% if connection.pending %}
+                    {% ifequal connection.profile1 user.profile %}
+                        <!-- Looking at profile you're waiting to connect with -->
+                        <div class="btn btn-info disabled">Waiting For Response</div>
+                    {% else %}
+                        <!-- Looking at profile that's waiting to connect with you -->
+                        <a href="{% url 'profiles:accept' show_user.profile.slug %}" class="btn btn-success">Accept Connection</a>
+                    {% endifequal %}
+                {% else %}
+                    <!-- Looking at profile that you're already connected with -->
+                    <div class="btn btn-info disabled">Already Connected</div>
+                {% endif %}
+            {% else %}
+                <!-- Looking at profile you're not connected with -->
+                <a href="{% url 'profiles:connect' show_user.profile.slug %}" class="btn btn-success">Request Connection</a>
             {% endif %}
         </div>
     <div class="col-sm-2"><img title="profile picture" class="img-circle img-responsive" src="{% thumbnail show_user.profile.picture|default:'default_profile.png' 140x140 crop %}">

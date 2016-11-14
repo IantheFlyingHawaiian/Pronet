@@ -3,6 +3,7 @@ from django.views import generic
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import ObjectDoesNotExist
 from django.forms.models import formset_factory
 from django.urls import reverse_lazy
 from . import forms
@@ -23,8 +24,43 @@ class ShowProfile(LoginRequiredMixin, generic.TemplateView):
 
         if user == self.request.user:
             kwargs["editable"] = True
+
         kwargs["show_user"] = user
+
+        # Get connection info, or lack of it
+        current_user = request.user
+        try:
+            connection = models.Connection.objects.get(profile1=current_user.profile, profile2=user.profile)
+            kwargs["connection"] = connection
+        except ObjectDoesNotExist:
+            try:
+                connection = models.Connection.objects.get(profile1=user.profile, profile2=current_user.profile)
+                kwargs["connection"] = connection
+            except ObjectDoesNotExist:
+                kwargs["connection"] = False
+
         return super(ShowProfile, self).get(request, *args, **kwargs)
+
+
+def connect(request, slug):
+    current_user = request.user.profile
+    other_user = get_object_or_404(models.Profile, slug=slug)
+
+    conn = models.Connection(profile1=current_user, profile2=other_user)
+    conn.save()
+
+    return redirect("profiles:show", slug=slug)
+
+def accept_from_profile(request, slug):
+    current_user = request.user.profile
+    other_user = get_object_or_404(models.Profile, slug=slug)
+    conn = get_object_or_404(models.Connection, profile1=other_user, profile2=current_user)
+
+    conn.pending = False
+    conn.save()
+
+    return redirect("profiles:show", slug=slug)
+
 
 class EditProfile(LoginRequiredMixin, generic.TemplateView):
     template_name = "profiles/edit_profile.html"
@@ -101,7 +137,7 @@ class EditWorkExperience(LoginRequiredMixin, generic.TemplateView):
 
     def post(self, request, *args, **kwargs):
         user = self.request.user
-        slug = request.get_full_path().lstrip('users/me/work/edit/')
+        slug = request.get_full_path().lstrip('/users/me/work/edit/')
         work_experience = get_object_or_404(models.WorkExperience, slug=slug)
         workexperience_form = forms.EditWorkExperienceForm(request.POST,
                                                            request.FILES,

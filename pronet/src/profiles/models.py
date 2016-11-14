@@ -23,6 +23,7 @@ class BaseProfile(models.Model):
                               null = True,
                               blank = True)
     premium_flag = models.BooleanField("Premium User", default=False)
+    connections = models.ManyToManyField('self', through='Connection', symmetrical=False, related_name='connections_set')
 
     def resume_name(self):
         return os.path.basename(self.resume.name)
@@ -68,3 +69,14 @@ class WorkExperience(models.Model):
 
     class Meta:
         ordering = ['-current', '-start_date', '-end_date']
+
+
+class Connection(models.Model):
+    # Profile that initiates the connection request is always profile1
+    profile1 = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='profile1')
+    profile2 = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='profile2')
+    time = models.DateTimeField('Connection Timestamp', auto_now=True)
+    pending = models.BooleanField('Connection Pending', default=True)
+
+    def __str__(self):
+        return "Connection between {0} and {1}".format(self.profile1, self.profile2)
