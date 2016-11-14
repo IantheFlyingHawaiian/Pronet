@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.views import generic
 from django.template import loader
 from django.shortcuts import render
-from .models import Topic
+from .models import Topic, Question
 from django.shortcuts import get_object_or_404
 
 def forums(request):
@@ -24,7 +24,19 @@ def topic(request, topic_id):
     except Topic.DoesNotExist:
         raise Http404("Topic does not exist")
     output = {'topic_value': topic_value}
-    return render(request, template_name, output)
+
+    #questions = get_object_or_404(Question, q_topic = topic_id)
+    questions = Question.objects.all().filter(q_topic = topic_id)
+    outputQuestions = {'questions' : questions}
+
+    all_models_dict = {
+        "topic_value": topic_value,
+        "questions" : questions
+    }
+
+
+
+    return render(request, template_name,  all_models_dict)
 
 # def questions(request, question_id):
 #     return HttpResponse("You're voting on question %s." % question_id)
