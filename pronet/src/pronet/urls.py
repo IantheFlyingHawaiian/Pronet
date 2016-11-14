@@ -13,7 +13,7 @@ urlpatterns = [
     url(r'^users/', include(profiles.urls, namespace='profiles')),
     url(r'^search/', include('search.urls', namespace='search')),
     url(r'^forums/', include(forums.urls, namespace='forums')),
-    #url(r'^forums/$', views.ForumsPage.as_view(), name='forums'),
+    url(r'^forums/$', views.ForumsPage.as_view(), name='forums'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^', include(accounts.urls, namespace='accounts')),
 ]
