@@ -24,3 +24,10 @@ class Answer(models.Model):
 
     def __str__(self):
         return self.answer_text
+
+class Post(models.Model):
+    topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
+    post_text = models.CharField(max_length = 500)
+
+    def __str__(self):
+        return self.post_text
