@@ -34,7 +34,7 @@ def topic(request, topic_id):
     }
     return render(request, template_name,  all_models_dict)
 
-
+#hi
 def questions(request, question_id, topic_id):
     template_name = "forums/QA.html"
     try:
