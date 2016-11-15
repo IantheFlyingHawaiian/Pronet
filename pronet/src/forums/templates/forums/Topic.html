@@ -10,18 +10,28 @@
 {% endblock %}
 
 {% block container %}
+<link rel="stylesheet" href="{{ STATIC_URL }}style.css" />
 
 <div class="container">
+        <button class='rightButton'>New Question</button>
         <h1> {{ topic_value }}</h1>
+        <br>
         <div>
 
                 <div>
 
                         <ul>
                                 {{q}}
+
                                 {% for question in questions %}
-                                <li><a href="{% url 'forums:questions' question.q_topic_id question.id %}">{{ question.question_text }}</a></li>
-                                {% endfor %}
+                                <div class='card'>
+                                        <div class="container">
+                                 <a href="{% url 'forums:questions' question.q_topic_id question.id %}" class='qList'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ question.question_text }}</li></classa>
+                                         <br>
+                                </div>
+                                        </div>
+                                <br>
+                                         {% endfor %}
 
                         </ul>
 

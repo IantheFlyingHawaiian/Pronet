@@ -8,19 +8,18 @@
 {% block container %}
 
 <div class="container">
+        <h1> {{ question_value }}</h1>
+        <div>
+                <h1>
+                        {% for a in answers %}
+                        <tr>
+                                <h3>{{ a }}</h3>
 
-    <h1> {{question_value }}</h1>
-    <a class="btn btn-default" href="{% url 'add_answer_to_question' pk=question.pk %}">Add answer</a>
+                        </tr>
+                        {% endfor %}
 
-    {% for a in answers %}
-            <div>
-                <p>{{ a.answer_text|linebreaks }}</p>
-                <div > <strong>{{ a.author }}</strong>
-                    {{ a.pub_date}}</div>
-            </div>
-        {% empty %}
-            <p>No answers here yet :(</p>
-        {% endfor %}
+                </h1>
 
+        </div>
 </div>
 {% endblock %}
