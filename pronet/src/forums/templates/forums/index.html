@@ -1,3 +1,7 @@
+{% block navbar-left %}
+  {% include "_navbar.html" with active_link="forums" %}
+{% endblock %}
+
 {% if latest_topic_list %}
     <ul>
     {% for topic in latest_topic_list %}

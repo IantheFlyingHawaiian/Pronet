@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+{% load thumbnail %}
+
+{% block title %}{{ block.super }}Profile{% endblock %}
+
+{% block container %}
+
+<div class="container">
+        <h1> {{ question_value }}</h1>
+        <div>
+                <h1>
+                        {% for a in answers %}
+                        <tr>
+                                <h3>{{ a }}</h3>
+
+                        </tr>
+                        {% endfor %}
+
+                </h1>
+
+        </div>
+</div>
+{% endblock %}

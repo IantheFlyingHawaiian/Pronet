@@ -8,6 +8,7 @@ urlpatterns =[
     url(r'^index$', views.index, name='index'),
     # ex: /forums/1/
     url(r'^(?P<topic_id>[0-9]+)/$', views.topic, name='topic'),
+    url(r'^(?P<topic_id>[0-9]+)/(?P<question_id>[0-9]+)/$', views.questions, name='questions'),
     # ex: /forums/design/3/
     #url(r'^(?P<topic_id>[0-9]+)/(?P<question_id>[0-9]+)/$', views.questions, name='questions'),
 ]
