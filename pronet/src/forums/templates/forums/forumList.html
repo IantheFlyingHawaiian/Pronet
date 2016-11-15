@@ -5,6 +5,10 @@
 
 {% block title %}{{ block.super }}Profile{% endblock %}
 
+{% block navbar-left %}
+  {% include "_navbar.html" with active_link="forums" %}
+{% endblock %}
+
 {% block container %}
 <link rel="stylesheet" href="{{ STATIC_URL }}style.css" />
 
