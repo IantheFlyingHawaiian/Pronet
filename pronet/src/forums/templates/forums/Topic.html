@@ -9,5 +9,17 @@
 
 <div class="container">
         <h1> {{ topic_value }}</h1>
+        <div>
+                <h1>
+                        {% for q in questions %}
+                        <tr>
+                                <h2>{{ q }}</h2>
+
+                        </tr>
+                        {% endfor %}
+
+                </h1>
+
+        </div>
 </div>
 {% endblock %}

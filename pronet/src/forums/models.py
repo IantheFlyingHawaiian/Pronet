@@ -9,8 +9,8 @@ class Topic(models.Model):
 
 
 class Question(models.Model):
-    #q_topic = models.ForeignKey(Topic, on_delete=models.PROTECT)
-    question_text = models.CharField(max_length=200)
+    q_topic = models.ForeignKey(Topic, on_delete=models.PROTECT, default = None)
+    question_text = models.CharField(max_length=200, default = "")
     pub_date = models.DateTimeField('date published')
 
     def __str__(self):
