@@ -4,6 +4,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 import profiles.urls
 import accounts.urls
+import forums.urls
 from . import views
 
 urlpatterns = [
@@ -11,7 +12,8 @@ urlpatterns = [
     url(r'^about/$', views.AboutPage.as_view(), name='about'),
     url(r'^users/', include(profiles.urls, namespace='profiles')),
     url(r'^search/', include('search.urls', namespace='search')),
-    url(r'^forums/', views.ForumPage.as_view(), name='forums'),
+    url(r'^forums/', include(forums.urls, namespace='forums')),
+    url(r'^forums/$', views.ForumsPage.as_view(), name='forums'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^', include(accounts.urls, namespace='accounts')),
 ]

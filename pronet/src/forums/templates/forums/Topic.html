@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+{% load thumbnail %}
+
+{% block title %}{{ block.super }}Profile{% endblock %}
+
+{% block navbar-left %}
+  {% include "_navbar.html" with active_link="forums" %}
+{% endblock %}
+
+{% block container %}
+
+<div class="container">
+        <h1> {{ topic_value }}</h1>
+        <div>
+
+                <div>
+                        <ul>
+                                {{q}}
+                                {% for question in questions %}
+                                <li><a href="{% url 'forums:questions' question.q_topic_id question.id %}">{{ question.question_text }}</a></li>
+                                {% endfor %}
+
+                        </ul>
+
+                </div>
+
+
+        </div>
+</div>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% block navbar-left %}
+  {% include "_navbar.html" with active_link="forums" %}
+{% endblock %}
+
+{% if latest_topic_list %}
+    <ul>
+    {% for topic in latest_topic_list %}
+        <li><a href="{% url 'forums:topic' topic.id %}">{{ topic.topic_text }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No polls are available.</p>
+{% endif %}
