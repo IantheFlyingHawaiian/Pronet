@@ -3,13 +3,14 @@ from django.views import generic
 from django.template import loader
 from django.shortcuts import render
 from .models import Topic, Question, Answer
+from .forms import QuestionForm, AnswerForm
 from django.shortcuts import get_object_or_404
 
 def forums(request):
      template_name = "forums/forumList.html"
      return render(request, template_name)
 
-#hi there
+#lists all topics instead of pictures
 def index(request):
     template_name = "forums/index.html"
     topic = Topic.objects.all()
@@ -34,7 +35,7 @@ def topic(request, topic_id):
     }
     return render(request, template_name,  all_models_dict)
 
-#hi
+
 def questions(request, question_id, topic_id):
     template_name = "forums/QA.html"
     try:
@@ -49,3 +50,33 @@ def questions(request, question_id, topic_id):
         "answers": answers
     }
     return render(request, template_name, all_models_dict)
+
+#used for forms
+def question_new(request, topic_id):
+    template_name = "forums/question_edit.html"
+    if request.method == "POST":
+        form = QuestionForm(request.POST)
+        if form.is_valid():
+            question = form.save(commit=False)
+            question.author = request.user
+            question.pub_date = timezone.now()
+            question.save()
+            return redirect('Topic', pk=question.pk)
+    else:
+        form = QuestionForm()
+    return render(request, template_name, {'form': form})
+
+def add_answer_to_question(request, pk):
+    template_name = "forums/AATQ.html"
+    question = get_object_or_404(Question, pk = pk)
+    if request.method == "POST":
+        form = AnswerForm(request.POST)
+        if form.is_valid():
+            answer = form.save(commit = False)
+            answer.a_question_topic_id = question
+            answer.save()
+            return redirect('QA', pk = question.pk)
+        else:
+            form = AnswerForm()
+    return render(request, template_name, {'form':form})
+
