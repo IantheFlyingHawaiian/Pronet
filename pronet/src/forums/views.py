@@ -66,17 +66,19 @@ def question_new(request, topic_id):
         form = QuestionForm()
     return render(request, template_name, {'form': form})
 
-def add_answer_to_question(request, pk):
+def add_answer_to_question(request, question_id, topic_id):
     template_name = "forums/AATQ.html"
-    question = get_object_or_404(Question, pk = pk)
+
+    #question = get_object_or_404(Question, pk = question_id)
     if request.method == "POST":
-        form = AnswerForm(request.POST)
-        if form.is_valid():
+        form2 = AnswerForm(request.POST)
+        if form2.is_valid():
             answer = form.save(commit = False)
-            answer.a_question_topic_id = question
+            answer.author = request.user
+            #answer.a_question_topic_id = question
             answer.save()
-            return redirect('QA', pk = question.pk)
+            return redirect('QA', pk = answer.pk)
         else:
             form = AnswerForm()
-    return render(request, template_name, {'form':form})
+    return render(request, template_name, {'form':form2})
 

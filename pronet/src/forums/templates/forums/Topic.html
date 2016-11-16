@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="{{ STATIC_URL }}style.css" />
 
 <div class="container">
-        <button class='rightButton'>New Question</button>
+        <button onclick="location.href='{% url 'forums:question_new' topic_value %}'" class='rightButton'>New Question</button>
         <h1> {{ topic_value }}</h1>
         <br>
         <div>
