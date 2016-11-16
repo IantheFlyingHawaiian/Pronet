@@ -71,7 +71,7 @@ def question_new(request, topic_id):
             #this text takes you forums/culinary
             text = "/forums/" + str(question.q_topic_id)
 
-            # this text takes you forums/culinary
+            # this text takes you forums/culinary/question_id
             text = "/forums/" + str(question.q_topic_id) + "/" + str(question.pk)
 
             #return redirect('Topic', pk=question.pk)
@@ -88,11 +88,12 @@ def add_answer_to_question(request, question_id, topic_id):
         form = AnswerForm(request.POST)
         if form.is_valid():
             answer = form.save(commit = False)
+            answer.a_question_topic_id = Question.objects.get(question_text=question_id)
             answer.author = request.user
             answer.pub_date = timezone.now()
-            answer.a_question_topic_id = topic_id
             answer.save()
-            return redirect('QA', pk = answer.pk)
+            text = "/forums/" + str(topic_id) + "/" + str(answer.a_question_topic_id.id)
+            return redirect(text)
     else:
         form = AnswerForm()
     return render(request, template_name, {'form':form})
