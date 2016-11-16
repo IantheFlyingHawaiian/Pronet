@@ -1,10 +1,13 @@
 from django.http import HttpResponse
 from django.views import generic
+import logging
 from django.template import loader
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Topic, Question, Answer
 from .forms import QuestionForm, AnswerForm
 from django.shortcuts import get_object_or_404
+import datetime
+from django.utils import timezone
 
 def forums(request):
      template_name = "forums/forumList.html"
@@ -42,9 +45,7 @@ def questions(request, question_id, topic_id):
         question_value = get_object_or_404(Question, pk=question_id)
     except Question.DoesNotExist:
         raise Http404("Question does not exist")
-    #outputA = {'question_value': question_value}
     answers = Answer.objects.all().filter(a_question_topic_id = question_id)
-
     all_models_dict = {
         "question_value": question_value,
         "answers": answers
@@ -58,10 +59,23 @@ def question_new(request, topic_id):
         form = QuestionForm(request.POST)
         if form.is_valid():
             question = form.save(commit=False)
-            question.author = request.user
+            question.q_topic_id = Topic.objects.get(topic_text = topic_id)
+           # logger.error(" Q topic id %s", question.q_topic_id.topic_text)
             question.pub_date = timezone.now()
+            question.author = request.user
             question.save()
-            return redirect('Topic', pk=question.pk)
+
+            # This text takes you to culinary id = 1
+            #text = "/forums/" +  str(question.q_topic_id.id)
+
+            #this text takes you forums/culinary
+            text = "/forums/" + str(question.q_topic_id)
+
+            # this text takes you forums/culinary
+            text = "/forums/" + str(question.q_topic_id) + "/" + str(question.pk)
+
+            #return redirect('Topic', pk=question.pk)
+            return redirect(text)
     else:
         form = QuestionForm()
     return render(request, template_name, {'form': form})
@@ -71,14 +85,15 @@ def add_answer_to_question(request, question_id, topic_id):
 
     #question = get_object_or_404(Question, pk = question_id)
     if request.method == "POST":
-        form2 = AnswerForm(request.POST)
-        if form2.is_valid():
+        form = AnswerForm(request.POST)
+        if form.is_valid():
             answer = form.save(commit = False)
             answer.author = request.user
-            #answer.a_question_topic_id = question
+            answer.pub_date = timezone.now()
+            answer.a_question_topic_id = topic_id
             answer.save()
             return redirect('QA', pk = answer.pk)
-        else:
-            form = AnswerForm()
-    return render(request, template_name, {'form':form2})
+    else:
+        form = AnswerForm()
+    return render(request, template_name, {'form':form})
 
