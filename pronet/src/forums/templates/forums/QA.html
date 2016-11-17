@@ -4,22 +4,32 @@
 {% load thumbnail %}
 
 {% block title %}{{ block.super }}Profile{% endblock %}
+{% block navbar-left %}
+  {% include "_navbar.html" with active_link="forums" %}
+{% endblock %}
 
 {% block container %}
+<link rel="stylesheet" href="{{ STATIC_URL }}style.css" />
 
 <div class="container">
+        <button onclick="location.href='{% url 'forums:add_answer_to_question' question_value.q_topic_id question_value %}'" class='rightButton'>Comment</button>
+
         <h1> {{ question_value }}</h1>
+        <br>
         <div>
-                <h1>
+                <div>
+                        <ul>
+
                         {% for a in answers %}
-                        <tr>
-                                <h3>{{ a }}</h3>
-
-                        </tr>
+                                <div class="card">
+                                        <div class="container">
+                                <class="qList">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ a }}</class><br>
+                                                </div>
+                                        </div>
+                                <br>
                         {% endfor %}
-
-                </h1>
-
+                                </ul>
+                </div>
         </div>
 </div>
 {% endblock %}
