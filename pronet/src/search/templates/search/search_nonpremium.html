@@ -9,7 +9,7 @@
     <html xmlns="http://www.w3.org/1999/html">
     <head>
 
-        <!-- reference to Javascript here -->
+        <!-- Javascript functions -->
         <script>
             var array_usernames = new Array(10);
             var array_userlinks = new Array(10);
@@ -23,50 +23,31 @@
                 array_userPics[count] = userPic;
                 count++;
             }
-            <!-- Regular Name Search-->
-            function searchUsers(){
-                var $list = $("#userList");
-                var foundUser = false;
+            <!-- Display Users -->
+            function displayUsers(){
 
-                <!-- update user list function -->
-                <!-- grab the username inside of the search text -->
-                var name_search = document.getElementById('basicSearchText').value;
+                setTimeout(function() {
+                    var $list = $("#userList");
 
-                <!-- set search text back to null -->
-                document.getElementById('basicSearchButton').value = "";
-                document.getElementById('basicSearchText').value = "Search Pronet";
+                for (var i = 0; i < count; i++) {
 
-                if(name_search != ""){
-                    <!-- cycle through all users -->
-                    for (var i = 0; i < array_usernames.length; i++) {
+                    var tempuser = array_usernames[i];
+                    var tempuserlink = array_userlinks[i];
+                    var tempphoto = array_userPics[i];
 
-                        //Each cycle grab a new user and attach to tempuser
-                        var tempuser = array_usernames[i];
+                    if(tempphoto == "/media/"){
+                        tempphoto = "/media/default_profile.png.140x140_q85_crop.png";
+                    }
 
-                        if(tempuser != null){
-                            var tempuser_lower = tempuser.toLowerCase();
-                            var namesearch_lower = name_search.toLowerCase();
 
-                            // Check if name_search is a substring of tempuser
-                            if (tempuser_lower.includes(namesearch_lower) == true) {
 
-                                var tempuserlink = array_userlinks[i];
-
-                                var tempphoto = array_userPics[i];
-                                if(tempphoto == "/media/"){
-                                    tempphoto = "/media/default_profile.png.140x140_q85_crop.png";
-                                }
-                                foundUser = true;
-
-                                $list.append("<li class='user-list'>"
+                    $list.append("<li class='user-list'>"
                                     + "<a id='" + tempuser + "' href='" + "/users/"
                                     + tempuserlink + "'>" + "<img id='" + tempuser
                                     + "photo' class='img-circle img-responsive' src='" + tempphoto
                                     + "' width='130' height='130'>" + tempuser + "</a></li>");
-                            }
-                        }
-                    }
                 }
+                }, 1);
             }
             function focusDiv(){
                 var e = document.getElementById("advSearchOptions");
@@ -83,6 +64,8 @@
                     var userName = "{{ user.user.name }}";
                     var userlink = "{{ user.slug }}";
                     var userPic = "/media/" + "{{ user.picture }}";
+
+                    console.log(userName + userlink + userPic);
 
                     addUser(userName, userlink, userPic);
                 </script>
@@ -182,14 +165,14 @@
     <!-- div for basic search bar -->
     <div id="basicSearchBar">
         <form method="GET" action="">
-            <input id="basicSearchText" type="text" name="search" placeholder="Search Pronet">
-            <input id="basicSearchButton" type="submit" value="" /> <!--onclick=searchUsers()-->
+            <input id="basicSearchText" type="text" name="np-search" placeholder="Search Pronet" value="{{request.GET.search}}">
+            <input id="basicSearchButton" type="submit" value="" />
         </form>
     </div>
 
     <!-- div for search results -->
     <div>
-        <ul id="userList"></ul>
+        <ul id="userList"><script>displayUsers();</script></ul>
     </div>
 
     </body>
