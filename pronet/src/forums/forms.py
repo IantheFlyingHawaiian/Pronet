@@ -14,7 +14,8 @@ class QuestionForm(forms.ModelForm):
 
     class Meta:
         model = Question
-        fields = ('author', 'question_text')
+        exclude = ['author', 'q_topic_id', 'pub_date']
+        #fields = ('author', 'question_text')
 
 
 class AnswerForm(forms.ModelForm):
@@ -30,4 +31,5 @@ class AnswerForm(forms.ModelForm):
 
     class Meta:
         model = Answer
-        fields = ('author', 'answer_text')
+        exclude = ['author', 'a_question_topic_id', 'pub_date']
+        #fields = ('author', 'answer_text')
