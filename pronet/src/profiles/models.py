@@ -80,3 +80,14 @@ class Connection(models.Model):
 
     def __str__(self):
         return "Connection between {0} and {1}".format(self.profile1, self.profile2)
+
+'''
+class Skills(models.Model):
+    skilltag = models.ManyToManyField('Skills');
+    skillsString = ;
+    skillsEndorseNum = models.DecimalField('Endorsements', max_digits = 8, decimal_places=2, blank=True, null=True);
+
+    def __str__(self):
+        return  "Work for {0} from {1} to {2} at {3}".format(self.profile, self.start_date, self.end_date, self.company)
+
+'''
