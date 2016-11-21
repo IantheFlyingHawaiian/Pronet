@@ -12,7 +12,24 @@
         <div class="col-sm-10">
             <h1>{{ show_user.get_full_name }}</h1>
             {% if editable %}
+                <!-- Looking at your own profile -->
                 <a href="{% url 'profiles:edit_self' %}" class="btn btn-info">Edit Profile</a>
+            {% elif connection %}
+                {% if connection.pending %}
+                    {% ifequal connection.profile1 user.profile %}
+                        <!-- Looking at profile you're waiting to connect with -->
+                        <div class="btn btn-info disabled">Waiting For Response</div>
+                    {% else %}
+                        <!-- Looking at profile that's waiting to connect with you -->
+                        <a href="{% url 'profiles:accept' show_user.profile.slug %}" class="btn btn-success">Accept Connection</a>
+                    {% endifequal %}
+                {% else %}
+                    <!-- Looking at profile that you're already connected with -->
+                    <div class="btn btn-info disabled">Already Connected</div>
+                {% endif %}
+            {% else %}
+                <!-- Looking at profile you're not connected with -->
+                <a href="{% url 'profiles:connect' show_user.profile.slug %}" class="btn btn-success">Request Connection</a>
             {% endif %}
         </div>
     <div class="col-sm-2"><img title="profile picture" class="img-circle img-responsive" src="{% thumbnail show_user.profile.picture|default:'default_profile.png' 140x140 crop %}">
@@ -54,9 +71,6 @@
                 	<strong>Bio</strong>: {{ show_user.profile.bio }}
             	</div>
                 <div class="panel-body">
-                    <strong>Skills</strong>: {{ show_user.profile.skills }}
-            	</div>
-                <div class="panel-body">
                     <strong>Years Worked</strong>: {{ show_user.profile.work_years }}
             	</div>
                 <div class="panel-body">
@@ -93,17 +107,19 @@
                     <div class="panel-body">
                         <strong>{{ w.title }}</strong>: {{ w.company }}, {{ w.location }}
                         {% if w.current %}
-                            <p>Started {{ w.start_date }}</p>
+                            <p>Current Position: Started {{ w.start_date }}</p>
                         {% else %}
                             <p>{{ w.start_date }} - {{ w.end_date }}</p>
                         {% endif %}
                         <p>{{ w.details }}</p>
-                        <a href="{% url 'profiles:add_work_self' %}">
-                            <span class="glyphicon glyphicon-edit" aria-hidden="true" title="Edit Work Experience"></span> <span class="sr-only">Edit</span>
-                        </a>
-                        <a href="{% url 'profiles:add_work_self' %}">
-                            <span class="glyphicon glyphicon-remove" aria-hidden="true" title="Edit Work Experience"></span> <span class="sr-only">Edit</span>
-                        </a>
+                        {% if editable %}
+                    	    <a href="{% url 'profiles:edit_work_self' w.slug %}">
+                                <span class="glyphicon glyphicon-edit" aria-hidden="true" title="Edit Work Experience"></span> <span class="sr-only">Edit</span>
+                            </a>
+                            <a href="{% url 'profiles:delete_work_self' w.slug %}">
+                                <span class="glyphicon glyphicon-remove" aria-hidden="true" title="Edit Work Experience"></span> <span class="sr-only">Delete</span>
+                            </a>
+                        {% endif %}
                 	</div>
                 {% endfor %}
             </div>
