@@ -49,7 +49,8 @@ class Search(generic.TemplateView):
 
         pquery_ywork = request.GET.get("ywork")
         if pquery_ywork:
-            queryset = queryset.filter(work_years__icontains=pquery_ywork)
+            workyearnum = int(pquery_ywork)
+            queryset = queryset.filter(work_years__gte = workyearnum)
 
         '''
         pquery_company = request.GET.get("cmpy")
@@ -58,6 +59,6 @@ class Search(generic.TemplateView):
         '''
 
         if exists:
-            return render(request, template_premium, {'users': queryset, 'currentuser':currentuser})
+            return render(request, template_premium, {'users': queryset, 'users_work': queryset_work, 'currentuser':currentuser})
         else:
             return render(request, template_nonpremium, {'users': queryset, 'currentuser':currentuser})

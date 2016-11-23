@@ -157,3 +157,66 @@ class DeleteWorkExperience(LoginRequiredMixin, generic.edit.DeleteView):
     template_name = "profiles/delete_workexperience.html"
     model = models.WorkExperience
     success_url = reverse_lazy('profiles:show_self')
+
+
+class AddSkillExperience(LoginRequiredMixin, generic.TemplateView):
+    template_name = "profiles/add_skill.html"
+    http_method_names = ['get', 'post']
+
+    def get(self, request, *args, **kwargs):
+        user = self.request.user
+        if "skillexperience_form" not in kwargs:
+            kwargs["skillexperience_form"] = forms.AddSkillExperienceForm()
+        return super(AddSkillExperience, self).get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        user = self.request.user
+        skillexperience_form = forms.AddSkillExperienceForm(request.POST)
+        if not (skillexperience_form.is_valid()):
+            messages.error(request, "There was a problem with the form. "
+                           "Please check the details.")
+            skillexperience_form = forms.AddSkillExperienceForm()
+            return super(AddSkillExperience, self).get(request, skillexperience_form=skillexperience_form)
+
+        # Form is fine. Time to save!
+        skillexperience = skillexperience_form.save(commit=False)
+        skillexperience.profile = user.profile
+        skillexperience.save()
+        messages.success(request, "Skill experience details saved!")
+        return redirect("profiles:show_self")
+
+
+class EditSkillExperience(LoginRequiredMixin, generic.TemplateView):
+    template_name = "profiles/edit_skill.html"
+    http_method_names = ['get', 'post']
+
+    def get(self, request, *args, **kwargs):
+        user = self.request.user
+        if "skillexperience_form" not in kwargs:
+            slug = request.get_full_path().lstrip('users/me/skill/edit/')
+            skill_experience = get_object_or_404(models.SkillExperience, slug=slug)
+            kwargs["skillexperience_form"] = forms.EditSkillExperienceForm(instance=skill_experience)
+        return super(EditSkillExperience, self).get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        user = self.request.user
+        slug = request.get_full_path().lstrip('/users/me/skill/edit/')
+        skill_experience = get_object_or_404(models.SkillExperience, slug=slug)
+        skillexperience_form = forms.EditSkillExperienceForm(request.POST,
+                                                           request.FILES,
+                                                           instance=skill_experience)
+        if not (skillexperience_form.is_valid()):
+            messages.error(request, "There was a problem with the form. "
+                           "Please check the details.")
+            skillexperience_form = forms.EditSkillExperienceForm(instance=skill_experience)
+            return super(EditSkillExperience, self).get(request, skillexperience_form=skillexperience_form)
+        # Form is fine. Time to save!
+        skillexperience_form.save()
+        messages.success(request, "Skill experience details saved!")
+        return redirect("profiles:show_self")
+
+
+class DeleteSkillExperience(LoginRequiredMixin, generic.edit.DeleteView):
+    template_name = "profiles/delete_skill.html"
+    model = models.SkillExperience
+    success_url = reverse_lazy('profiles:show_self')
