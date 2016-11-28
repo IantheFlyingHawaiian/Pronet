@@ -19,13 +19,16 @@
                     {% ifequal connection.profile1 user.profile %}
                         <!-- Looking at profile you're waiting to connect with -->
                         <div class="btn btn-info disabled">Waiting For Response</div>
+                        <a href="{% url 'profiles:revoke' show_user.profile.slug %}" class="btn btn-danger">Revoke Connection</a>
                     {% else %}
                         <!-- Looking at profile that's waiting to connect with you -->
                         <a href="{% url 'profiles:accept' show_user.profile.slug %}" class="btn btn-success">Accept Connection</a>
+                        <a href="{% url 'profiles:deny' show_user.profile.slug %}" class="btn btn-danger">Deny Connection</a>
                     {% endifequal %}
                 {% else %}
                     <!-- Looking at profile that you're already connected with -->
                     <div class="btn btn-info disabled">Already Connected</div>
+                    <a href="{% url 'profiles:remove' show_user.profile.slug %}" class="btn btn-danger">Remove Connection</a>
                 {% endif %}
             {% else %}
                 <!-- Looking at profile you're not connected with -->

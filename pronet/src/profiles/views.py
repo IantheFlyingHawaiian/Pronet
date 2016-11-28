@@ -4,6 +4,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Q
 from django.forms.models import formset_factory
 from django.urls import reverse_lazy
 from . import forms
@@ -58,6 +59,36 @@ def accept_from_profile(request, slug):
 
     conn.pending = False
     conn.save()
+
+    return redirect("profiles:show", slug=slug)
+
+def deny_from_profile(request, slug):
+    current_user = request.user.profile
+    other_user = get_object_or_404(models.Profile, slug=slug)
+    conn = get_object_or_404(models.Connection, profile1=other_user, profile2=current_user)
+
+    conn.delete()
+
+    return redirect("profiles:show", slug=slug)
+
+def revoke_from_profile(request, slug):
+    current_user = request.user.profile
+    other_user = get_object_or_404(models.Profile, slug=slug)
+    conn = get_object_or_404(models.Connection, profile1=current_user, profile2=other_user)
+
+    conn.delete()
+
+    return redirect("profiles:show", slug=slug)
+
+def remove_from_profile(request, slug):
+    current_user = request.user.profile
+    other_user = get_object_or_404(models.Profile, slug=slug)
+    if models.Connection.objects.filter(profile1=current_user, profile2=other_user):
+        conn = get_object_or_404(models.Connection, profile1=current_user, profile2=other_user)
+    else:
+        conn = get_object_or_404(models.Connection, profile1=other_user, profile2=current_user)
+
+    conn.delete()
 
     return redirect("profiles:show", slug=slug)
 
@@ -157,3 +188,64 @@ class DeleteWorkExperience(LoginRequiredMixin, generic.edit.DeleteView):
     template_name = "profiles/delete_workexperience.html"
     model = models.WorkExperience
     success_url = reverse_lazy('profiles:show_self')
+
+
+class ShowConnections(LoginRequiredMixin, generic.TemplateView):
+    template_name = "profiles/show_connections.html"
+    http_method_names = ['get']
+
+    def get(self, request, *args, **kwargs):
+        current_user = self.request.user
+        current_profile = current_user.profile
+
+        # Get connection info, or lack of it
+        kwargs["completed_connection_list"] = models.Connection.objects.filter(
+            (Q(profile1=current_profile) | Q(profile2=current_profile)) & Q(pending=False)
+        ).order_by("profile1__user__name", "profile2__user__name")
+
+        kwargs["pending_connection_list"] = models.Connection.objects.filter(
+            (Q(profile1=current_profile) | Q(profile2=current_profile)) & Q(pending=True)
+        ).order_by("profile1__user__name", "profile2__user__name")
+
+        return super(ShowConnections, self).get(request, *args, **kwargs)
+
+
+def accept_from_page(request, slug):
+    current_user = request.user.profile
+    other_user = get_object_or_404(models.Profile, slug=slug)
+    conn = get_object_or_404(models.Connection, profile1=other_user, profile2=current_user)
+
+    conn.pending = False
+    conn.save()
+
+    return redirect("profiles:show_connections")
+
+def deny_from_page(request, slug):
+    current_user = request.user.profile
+    other_user = get_object_or_404(models.Profile, slug=slug)
+    conn = get_object_or_404(models.Connection, profile1=other_user, profile2=current_user)
+
+    conn.delete()
+
+    return redirect("profiles:show_connections")
+
+def revoke_from_page(request, slug):
+    current_user = request.user.profile
+    other_user = get_object_or_404(models.Profile, slug=slug)
+    conn = get_object_or_404(models.Connection, profile1=current_user, profile2=other_user)
+
+    conn.delete()
+
+    return redirect("profiles:show_connections")
+
+def remove_from_page(request, slug):
+    current_user = request.user.profile
+    other_user = get_object_or_404(models.Profile, slug=slug)
+    if models.Connection.objects.filter(profile1=current_user, profile2=other_user):
+        conn = get_object_or_404(models.Connection, profile1=current_user, profile2=other_user)
+    else:
+        conn = get_object_or_404(models.Connection, profile1=other_user, profile2=current_user)
+
+    conn.delete()
+
+    return redirect("profiles:show_connections")
