@@ -23,7 +23,7 @@
         <!-- edit form column -->
         <div class="col-md-9">
             <h3>Personal info</h3>
-            <form enctype="multipart/form-data" method="post">
+            <form enctype="multipart/form-data" method="post">{% csrf_token %}
 	            {% crispy user_form %}
 	            {% crispy profile_form %}
             </form>

@@ -68,14 +68,7 @@
 		            </a>
                     <ul class="dropdown-menu" role="menu">
                       <li><a href="{% url 'profiles:show_self' %}">Profile</a></li>
-                      <li class="dropdown-submenu">
-                        <a class=test tabindex="-1" href="#">Search <span class="caret"></span></a>
-                        <ul class="dropdown">
-                          <li><a tabindex="-1" href="{% url 'search:search' %}"> Name Search </a></li>
-                          <li><a tabindex="-1" href="{% url 'search:searchyears' %}"> Skill Search </a></li>
-                          <li><a tabindex="-1" href="{% url 'search:search' %}"> Job Search </a></li>
-                        </ul>
-                      </li>
+                      <li><a href="{% url 'search:search' %}">Search</a></li>
                       <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
                     </ul>
                 </li>
