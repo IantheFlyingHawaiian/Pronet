@@ -15,17 +15,17 @@
 {% block title %}{{ block.super }}Home{% endblock %}
 
 {% block navbar-left %}
-  {% include "_navbar.html" with active_link="home" %}
+    {% include "_navbar.html" with active_link="home" %}
 {% endblock %}
 
 
 {% block navbar-right %}
-  {% if not user.is_authenticated %}
-<a class="btn btn-default" href="{% url 'accounts:login' %}" role="button">Log in</a>
-<a class="btn btn-primary" href="{% url 'accounts:signup' %}" role="button">Sign up</a>
-  {% else %}
-    {{ block.super }}
-  {% endif %}
+    {% if not user.is_authenticated %}
+        <a class="btn btn-default" href="{% url 'accounts:login' %}" role="button">Log in</a>
+        <a class="btn btn-primary" href="{% url 'accounts:signup' %}" role="button">Sign up</a>
+    {% else %}
+        {{ block.super }}
+    {% endif %}
 {% endblock %}
 
 {% block splash %}
@@ -42,16 +42,14 @@
 
         <div class="col-md-4 col-sm-4" style="clear: left">
         </div>
-      </div>
     </div>
-  </div>
 {% endblock splash %}
 <div >
   {% block container %}
   <!-- Benefits of the Django application -->
   <a name="about" ></a>
 
-  <div class="container" style="margin-top: 400px;>
+  <div class="container" style="margin-top: 400px;">
     <div class="row">
       <div class="col-lg-4">
         <h2>Profiles</h2>

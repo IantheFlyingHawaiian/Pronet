@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+{% load thumbnail %}
+
+{% block title %}{{ block.super }}Profile{% endblock %}
+
+<!-- Benefits of the Django application -->
+{% block container %}
+
+<div class="container">
+    <h1 class="text-primary">Connections</h1>
+    <hr>
+    <div class="row">
+        <!-- Left column -->
+        <div class="col-md-3">
+            <div class="text-center">
+                <img title="profile picture" class="img-circle img-responsive" src="{% thumbnail user.profile.picture|default:'default_profile.png' 140x140 crop %}">
+            </div>
+        </div>
+
+        <!-- Connections column -->
+        <div class="col-md-9">
+            {% if pending_connection_list.all %}
+                <h2 class="text-primary">Pending Connections</h2>
+                <hr>
+            {% endif %}
+            {% for conn in pending_connection_list.all %}
+                <div class="panel-body">
+                    {% ifequal conn.profile1 user.profile %}
+                        <a href="{% url 'profiles:show' conn.profile2.slug %}">
+                			<img src="{% thumbnail conn.profile2.picture|default:'default_profile.png' 30x30 crop %}" alt="{{ conn.profile2.user.get_full_name }}" />
+                        </a>
+                        <a href="{% url 'profiles:show' conn.profile2.slug %}">{{ conn.profile2.user.get_full_name }}</a>
+                        <a href="{% url 'profiles:page_revoke' conn.profile2.slug %}" class="btn btn-danger pull-right">Revoke</a>
+                    {% else %}
+                        <a href="{% url 'profiles:show' conn.profile1.slug %}">
+                			<img src="{% thumbnail conn.profile1.picture|default:'default_profile.png' 30x30 crop %}" alt="{{ conn.profile1.user.get_full_name }}" />
+                        </a>
+                        <a href="{% url 'profiles:show' conn.profile1.slug %}">{{ conn.profile1.user.get_full_name }}</a>
+                        <a href="{% url 'profiles:page_deny' conn.profile1.slug %}" class="btn btn-danger pull-right" style="margin-left:5px;">Deny</a>
+                        <a href="{% url 'profiles:page_accept' conn.profile1.slug %}" class="btn btn-success pull-right">Accept</a>
+                    {% endifequal %}
+                </div>
+            {% endfor %}
+            {% if pending_connection_list.all %}
+                <h2 class="text-primary">Connections</h2>
+                <hr>
+            {% endif %}
+            {% if not completed_connection_list.all %}
+                <h4 class="panel-body">
+                    No connections yet!
+                </h4>
+            {% endif %}
+            {% for conn in completed_connection_list.all %}
+                <div class="panel-body">
+                    {% ifequal conn.profile1 user.profile %}
+                        <a href="{% url 'profiles:show' conn.profile2.slug %}">
+                			<img src="{% thumbnail conn.profile2.picture|default:'default_profile.png' 30x30 crop %}" alt="{{ conn.profile2.user.get_full_name }}" />
+                        </a>
+                        <a href="{% url 'profiles:show' conn.profile2.slug %}">{{ conn.profile2.user.get_full_name }}</a>
+                        <a href="{% url 'profiles:page_remove' conn.profile2.slug %}" class="btn btn-danger pull-right">Remove</a>
+                    {% else %}
+                        <a href="{% url 'profiles:show' conn.profile1.slug %}">
+                			<img src="{% thumbnail conn.profile1.picture|default:'default_profile.png' 30x30 crop %}" alt="{{ conn.profile1.user.get_full_name }}" />
+                        </a>
+                        <a href="{% url 'profiles:show' conn.profile1.slug %}">{{ conn.profile1.user.get_full_name }}</a>
+                        <a href="{% url 'profiles:page_remove' conn.profile1.slug %}" class="btn btn-danger pull-right">Remove</a>
+                    {% endifequal %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -28,6 +28,7 @@ class BaseProfile(models.Model):
     def resume_name(self):
         return os.path.basename(self.resume.name)
 
+
     class Meta:
         abstract = True
 
@@ -80,7 +81,8 @@ class WorkExperience(models.Model):
     slug = models.UUIDField(default=uuid.uuid4, blank=True, editable=False)
 
     def __str__(self):
-        return "Work for {0}, started {1} at {2}".format(self.profile, self.start_date, self.company)
+        return "Work for {0}, started {1}, at {2}".format(self.profile, self.start_date, self.company)
+
 
     class Meta:
         ordering = ['-current', '-start_date', '-end_date']
