@@ -15,34 +15,35 @@
 {% block title %}{{ block.super }}Home{% endblock %}
 
 {% block navbar-left %}
-  {% include "_navbar.html" with active_link="home" %}
+    {% include "_navbar.html" with active_link="home" %}
 {% endblock %}
 
 
 {% block navbar-right %}
-  {% if not user.is_authenticated %}
-<a class="btn btn-default" href="{% url 'accounts:login' %}" role="button">Log in</a>
-<a class="btn btn-primary" href="{% url 'accounts:signup' %}" role="button">Sign up</a>
-  {% else %}
-    {{ block.super }}
-  {% endif %}
+    {% if not user.is_authenticated %}
+        <a class="btn btn-default" href="{% url 'accounts:login' %}" role="button">Log in</a>
+        <a class="btn btn-primary" href="{% url 'accounts:signup' %}" role="button">Sign up</a>
+    {% else %}
+        {{ block.super }}
+    {% endif %}
 {% endblock %}
 
 {% block splash %}
-  <div class="jumbotron jumbotron-carousel corporate-jumbo">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-8 col-sm-8">
-          <h1>{% include "_brandname.html" %}</h1>
-          <p>Improved networking, for professionals.</p>
-	  <a class="btn btn-primary" href="{% url 'accounts:signup' %}" role="button">Sign up for Free!</a>
+    <div class="jumbotron jumbotron-carousel corporate-jumbo">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-sm-8">
+                    <h1>{% include "_brandname.html" %}</h1>
+                    <p>Improved networking, for professionals.</p>
+                    {% if not user.is_authenticated %}
+                        <a class="btn btn-primary" href="{% url 'accounts:signup' %}" role="button">Sign up for Free!</a>
+                    {% endif %}
+                </div>
+                <div class="col-md-4 col-sm-4">
+                </div>
+            </div>
         </div>
-        <div class="col-md-4 col-sm-4">
-
-        </div>
-      </div>
     </div>
-  </div>
 {% endblock splash %}
 
 {% block container %}
@@ -50,23 +51,23 @@
 <a name="about"></a>
 
 <div class="container">
-  <div class="row">
-    <div class="col-lg-4">
-      <h2>Profiles</h2>
-      <p>A great way to display your resume, experience, and other professional information that will get you hired. For companies, a great way to get your business out there and get the best new hires.</p>
-      <!-- <p><a class="btn btn-primary" href="#" role="button">View details &raquo;</a></p> -->
+    <div class="row">
+        <div class="col-lg-4">
+            <h2>Profiles</h2>
+            <p>A great way to display your resume, experience, and other professional information that will get you hired. For companies, a great way to get your business out there and get the best new hires.</p>
+            <!-- <p><a class="btn btn-primary" href="#" role="button">View details &raquo;</a></p> -->
+        </div>
+        <div class="col-lg-4">
+            <h2>Networking</h2>
+            <p>Keep in touch with all of your professional contacts with messaging, and help them out by endorsing them for skills that you know they're experienced in.</p>
+            <!-- <p><a class="btn btn-primary" href="#" role="button">View details &raquo;</a></p> -->
+        </div>
+        <div class="col-lg-4">
+            <h2>Forums</h2>
+            <p>Provide a place to ask questions of your peers in the same field, and get answers from those with experience in the industry, or even a company you're considering working at.</p>
+            <!-- <p><a class="btn btn-primary" href="#" role="button">View details &raquo;</a></p> -->
+        </div>
     </div>
-    <div class="col-lg-4">
-      <h2>Networking</h2>
-      <p>Keep in touch with all of your professional contacts with messaging, and help them out by endorsing them for skills that you know they're experienced in.</p>
-      <!-- <p><a class="btn btn-primary" href="#" role="button">View details &raquo;</a></p> -->
-    </div>
-    <div class="col-lg-4">
-      <h2>Forums</h2>
-      <p>Provide a place to ask questions of your peers in the same field, and get answers from those with experience in the industry, or even a company you're considering working at.</p>
-      <!-- <p><a class="btn btn-primary" href="#" role="button">View details &raquo;</a></p> -->
-    </div>
-  </div>
 </div>
 
 {% endblock container %}
