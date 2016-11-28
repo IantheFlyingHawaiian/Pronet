@@ -13,12 +13,8 @@
 <link rel="stylesheet" href="{{ STATIC_URL }}style.css" />
 
 <div class="container">
-        <button onclick="location.href='{% url 'forums:question_new' topic_value %}'" class="btn btn-primary pull-right">New Question</button>
-        <button onclick="location.href='{% url 'forums:forums'  %}'" class="btn btn-default pull-left">Back</button>
-
-        <br>
-        <br>
-        <h1 class="text-center"> {{ topic_value }}</h1>
+        <button onclick="location.href='{% url 'forums:question_new' topic_value %}'" class='rightButton'>New Question</button>
+        <h1> {{ topic_value }}</h1>
         <br>
         <div>
 
@@ -27,16 +23,15 @@
                         <ul>
                                 {{q}}
 
-                                {% for question in questions reversed %}
+                                {% for question in questions %}
                                 <div class='card'>
                                         <div class="container">
-                                                <a href="{% url 'forums:questions' question.q_topic_id question.id %}" class='qList' style="padding-left: 20px;"> <u>{{ question.question_text }}</u> </li></a>
-                                                <p class="pull-right" style="padding-right: 60px;"> <strong> {{question.author}} </strong> &nbsp;&nbsp; {{question.pub_date}} </p>
-                                                <br>
-                                        </div>
+                                 <a href="{% url 'forums:questions' question.q_topic_id question.id %}" class='qList'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ question.question_text }}</li></classa>
+                                         <br>
                                 </div>
+                                        </div>
                                 <br>
-                                {% endfor %}
+                                         {% endfor %}
 
                         </ul>
 
