@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="{% block description %}{% endblock description %}">
     <meta name="author" content="Arun Ravindran">
-    <link rel="shortcut icon" href="{% static 'site/ico/favicon.ico' %}">
+    <link rel="shortcut icon" href="{% static 'site/img/logo.jpg' %}">
 
     <title>{% block title %}{% include "_brandname.html" %} :: {% endblock %}</title>
 
@@ -44,7 +44,7 @@
           </button>
           <a class="navbar-brand" href="{% url 'home' %}">
             {% block navbar-brand %}
-              <img src="{% static 'site/img/logo.png' %}" alt="logo">
+              <img src="{% static 'site/img/logo.png' %}" alt="logo" width="30" height="30">
               {% include "_brandname.html" %}
             {% endblock %}
           </a>
