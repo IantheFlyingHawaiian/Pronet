@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+{% load thumbnail %}
+
+{% block title %}{{ block.super }}Profile{% endblock %}
+{% block navbar-left %}
+  {% include "_navbar.html" with active_link="forums" %}
+{% endblock %}
+
+{% block container %}
+<link rel="stylesheet" href="{{ STATIC_URL }}style.css" />
+
+<div class="container">
+        <button onclick="location.href='{% url 'forums:add_answer_to_question' question_value.q_topic_id question_value %}'" class="btn btn-primary pull-right">Comment</button>
+        <button onclick="location.href='{% url 'forums:topic' question_value.q_topic_id %}'" class="btn btn-default pull-left">Back</button>
+
+        <br>
+        <br>
+        <h1 class="text-center"> {{ question_value }}</h1>
+        <br>
+        <div>
+                <div>
+                        <ul>
+
+                        {% for a in answers %}
+                                <div class="card">
+                                        <div class="container">
+                                <class="qList" style="padding-left: 20px;">{{ a }}</class>
+                                <p class="pull-right" style="padding-right: 60px;"> <strong> {{a.author}} </strong> &nbsp;&nbsp; {{a.pub_date}} </p>
+
+                                        </div>
+                                </div>
+                                <br>
+                        {% endfor %}
+                                </ul>
+                </div>
+        </div>
+</div>
+{% endblock %}

@@ -1,0 +1,442 @@
+    {% extends "base.html" %}
+    {% load staticfiles %}
+    {% load thumbnail %}
+
+    {% block title %}{{ block.super }}Search{% endblock %}
+
+    {% block container %}
+
+    <html>
+    <head>
+        <!-- Add in all user objects to arrays -->
+       <script>
+            var array_usernames = new Array(10);
+            var array_userlinks = new Array(10);
+            var array_userPics = new Array(10);
+            var count = 0;
+
+            function addUser(userName, userlink, userPic){
+                array_usernames[count] = userName;
+                array_userlinks[count] = userlink;
+                array_userPics[count] = userPic;
+                count++;
+                console.log("AddUser " + userName);
+            }
+            <!-- Display Users -->
+            function displayUsers(){
+                console.log("Enter displayUsers");
+                setTimeout(function() {
+                    var $list = $("#userList");
+
+                    for (var i = 0; i < count; i++) {
+                        var tempuser = array_usernames[i];
+                        var tempuserlink = array_userlinks[i];
+                        var tempphoto = array_userPics[i];
+                        console.log("Name " + tempuser + "\nlink " +tempuserlink + "\nphoto " + tempphoto);
+
+                        if(tempphoto == "/media/"){
+                            tempphoto = "/media/default_profile.png.140x140_q85_crop.png";
+                        }
+
+                        $list.append("<li class='user-list'>"
+                             + "<a id='" + tempuser + "' href='" + "/users/"
+                             + tempuserlink + "'>" + "<img id='" + tempuser
+                             + "photo' class='img-circle img-responsive' src='" + tempphoto
+                             + "' width='130' height='130'>" + tempuser + "</a></li>");
+                    }
+                }, 2);
+            }
+            function focusDiv(){
+                var e = document.getElementById("advSearchOptions");
+                e.style.display = (e.style.display == 'block') ? 'none' : 'block';
+            }
+            function focusInputEdu(){
+                var e = document.getElementById("advFormEducation");
+                e.style.display = (e.style.display == 'block') ? 'none' : 'block';
+            }
+            function advancedSearch(){
+                console.log("Testing");
+                //var edu = searchEduDegree.value;
+                //var school = searchEduSchool.value;
+                //var level = searchEduLevel.value;
+
+                //console.log("Degree " + edu + "\nSchool " + school + "\nLevel " + level);
+            }
+        </script>
+        <!-- Add in all user objects to arrays -->
+        <!-- Add in all user objects to arrays -->
+        {% if users %}
+            <ul>
+                {% for user in users %}
+                <script>
+                    var userName = "{{ user.user.name }}";
+                    var userlink = "{{ user.slug }}";
+                    var userPic = "/media/" + "{{ user.picture }}";
+                    console.log("Testing " + userName);
+
+                    addUser(userName, userlink, userPic);
+                </script>
+                {% endfor %}
+                <script>displayUsers()</script>
+            </ul>
+        {% endif %}
+        {% if not users %}
+            <script>console.log("Empty")</script>
+        {% endif %}
+        <!-- reference to CSS here-->
+        <style>
+            body{
+                height:300px;
+            }
+            footer{
+                margin-top: 100px;
+                box-shadow: 0px 500px 0px 500px #f8f8f8;
+            }
+
+            #basicSearchBar{
+                height: 60px;
+                text-align: right;
+                margin: 10px 50px 0px 50px;
+                background-color: #e0ffff;
+                margin-left:auto;
+                margin-right:auto;
+                width:960px;
+            }
+            #basicSearchText {
+                /* Text box attributes */
+                margin:10px 0px 0px 0px;
+                height: 40px;
+                width: 100px;
+                background-color: white;
+                border:none;
+
+                /* Text attributes */
+                text-align: center;
+                font-size: 12px;
+                border-bottom: 1px solid #BBB;
+
+                /* Transition Attributes */
+                -webkit-transition: width 0.8s ease-in-out;
+            }
+            #basicSearchText:focus {
+                width: 90%;
+                -webkit-transition: width 0.8s ease-in-out;
+            }
+            #basicSearchText:hover{
+                width:90%;
+            }
+            #basicSearchButton{
+                margin: 10px 10px 0px 10px;
+                height: 40px;
+                width: 40px;
+                float: right;
+
+                background: url(https://cdn3.iconfinder.com/data/icons/tango-icon-library/48/system-search-128.png);
+                background-position: center center;
+                background-repeat: no-repeat;
+                background-size: 40px 40px;
+                border: none;
+            }
+            #advSearchBar{
+                height: 100px;
+                text-align: right;
+                background-color: #F5F5DC;
+                margin-left:auto;
+                margin-right:auto;
+                width:960px;
+            }
+            #advSearchOptions{
+                display: none;
+            }
+            #advSearchOptions:focus{
+                display: inline;
+            }
+            #advFormEducation{
+                float:left;
+                background-color: #ffffe6;
+                height: 220px;
+                width: 300px;
+            }
+            #advFormSkill{
+                float: left;
+                background-color: #ebf0fa;
+                height: 220px;
+                width: 300px;
+            }
+            #advFormWork{
+                float:left;
+                background-color: #ffffe6;
+                height: 220px;
+                width: 300px;
+            }
+            #advButtonStyle{
+                clear:right;
+                background-color: #a2a2a2;
+            }
+            #advSearchButton{
+                margin-right:10px;
+                margin-left:10px;
+                height: 40px;
+                width: 40px;
+                clear: right;
+
+                background: url(https://cdn3.iconfinder.com/data/icons/tango-icon-library/48/system-search-128.png);
+                background-position: center center;
+                background-repeat: no-repeat;
+                background-size: 40px 40px;
+                border: none;
+            }
+            #searchResults{
+                height:auto;
+                margin-left: 100px;
+            }
+            input[type=menuexpand]{
+                margin-right:10px;
+                margin-left:10px;
+                height: 40px;
+                width: 40px;
+                float: right;
+
+                background: url(https://cdn3.iconfinder.com/data/icons/tango-icon-library/48/system-search-128.png);
+                background-position: center center;
+                background-repeat: no-repeat;
+                background-size: 40px 40px;
+                border: none;
+                filter: invert(100%);
+                -webkit-filter: invert(100%);
+            }
+            /* CSS 3 inputSearches */
+            #levelEduSelect{
+                height: 26px;
+                width: 133px;
+                margin-top: 5px;
+                right: 1px;
+                float: right;
+                margin-right: 73px;
+            }
+            #levelSkillSelect{
+                height: 26px;
+                width: 133px;
+                margin-top: 5px;
+                right: 1px;
+                float: right;
+                margin-right: 82px;
+            }
+            #levelWorkExpSelect{
+                height: 26px;
+                width: 133px;
+                margin-top: 5px;
+                right: 1px;
+                float: right;
+                margin-right: 30px;
+            }
+            #inputDegree{
+                margin-left:40px;
+                margin-right:40px;
+                margin-top: 10px;
+                -webkit-border-radius: 5px; /*For Safari, etc.*/
+                -moz-border-radius: 5px; /*For Mozilla, etc.*/
+                border-radius: 5px; /*CSS3 Feature*/
+            }
+            #inputCompany{
+                margin-left:40px;
+                margin-right:28px;
+                float: right;
+                -webkit-border-radius: 5px; /*For Safari, etc.*/
+                -moz-border-radius: 5px; /*For Mozilla, etc.*/
+                border-radius: 5px; /*CSS3 Feature*/
+            }
+            #pEduForm{
+                font-weight: bold;
+            }
+            #divEduTag{
+                height: 40px;
+                width: 295px;
+                margin-left: auto;
+                margin-right: auto;
+                text-align: center;
+                margin-top: 0px;
+                background-color: #f5e79e;
+                border-color: #3A7734;
+            }
+            #divSkillTag{
+                height: 40px;
+                width: 295px;
+                margin-left: auto;
+                margin-right: auto;
+                text-align: center;
+                margin-top: 0px;
+                background-color: #f5e79e;
+                border-color: #3A7734;
+            }
+            #divWorkExpTag{
+                height: 40px;
+                width: 295px;
+                margin-left: auto;
+                margin-right: auto;
+                text-align: center;
+                margin-top: 0px;
+                background-color: #f5e79e;
+                border-color: #3A7734;
+            }
+            #pTags{
+                text-align: left;
+                margin-left: 10px;
+            }
+            #pLevelTags{
+                text-align: left;
+                margin-left: 19px;
+            }
+            #pTagsSkill{
+                margin-top: 20px;
+                text-align: left;
+                margin-left: 15px;
+            }
+            #pTagsExperience{
+                margin-top: 20px;
+                text-align: left;
+                margin-left: 15px;
+            }
+            br{
+                line-height: .5em;
+            }
+            .user-list {
+                list-style-type: none;
+                display: inline-block;
+                width: 40%;
+                height: 150px;
+                background-color: #FFFFFF;
+                margin:10px;
+            }
+            .user-list img {
+                float:left;
+                margin-top: 30px;
+                margin-left: 10px;
+                height: 8vw;
+                width: 8vw;
+            }
+            .user-list a {
+                position: relative;
+                top: 30px;
+                left: 10px;
+                font-size:1.5em;
+            }
+            #userList{
+                margin-left: 190px;
+            }
+            #buttonSendEdu{
+                float: none;
+                margin-right: 50px;
+                width: 60px;
+            }
+            #buttonSendSkill{
+                float: none;
+                margin-right: 50px;
+                width: 60px;
+                margin-top: 30px;
+            }
+            #buttonSendWorkExp{
+                float: none;
+                margin-right: 50px;
+                width: 60px;
+                margin-top: 30px;
+            }
+            #maindiv{
+                margin-left:auto;
+                margin-right:auto;
+                width:300px;
+            }
+        </style>
+    </head>
+
+    <!-- reference to HTML here -->
+    <body>
+        <!-- div for basic search bar -->
+        <div id="basicSearchBar">
+            <form method="GET" action="" ><!--- onsubmit="return false"> -->
+                <input id="basicSearchText" type="text" name="npsearch" placeholder="Search Pronet" value="{{request.GET.search}}">
+                <input id="basicSearchButton" type="submit" value="" >
+            </form>
+        </div>
+        <!-- div for advanced searching -->
+        <div id="advSearchBar">
+            <div id="advSearchOptions">
+                <!-- Education Form -->
+                <form method="GET" action="" id="advFormEducation">
+                    <div id="maindiv">
+                        <!--<input id="inputSearchEdu" type="text" name="search" placeholder="Education"> -->
+                        <div id="divEduTag"><p id="pEduForm">Search by Education</p></div>
+
+                        <p id="pTags">Degree:<input id="inputDegree" type="text" name="degree" placeholder="Enter Degree"></p>
+
+                        <p id="pTags">School:<input id="inputDegree" type="text" name="schl" placeholder="Enter School"><p>
+
+                        <p id="pLevelTags">Level:
+                        <select id="levelEduSelect" name="eduLevel" type="number">
+                                <option selected value="0">Level of Education</option>
+                                <option value="hs">High School Graduate</option>
+                                <option value="bs">Bachelor's Degree</option>
+                                <option value="ms">Master's Degree</option>
+                                <option value="phd">Ph.D. Degree</option>
+                            </select>
+                        </p>
+                        <br>
+                        <input id="buttonSendEdu" type="submit" value="Search"/>
+                    </div>
+                </form>
+                <!-- Skill Form -->
+                <form method="GET" action="" id="advFormSkill">
+                    <div id="maindiv">
+                        <div id="divSkillTag"><p id="pEduForm">Search by Skills</p></div>
+
+                        <p id="pTagsSkill">Skill:<input id="inputDegree" type="text" name="skill" placeholder="Enter Skill"></p>
+
+                        <p id="pTagsSkill">Years:
+                        <select id="levelSkillSelect" name="yskill" type="number">
+                                <option selected value="0">0</option>
+                                <option value=1>1</option>
+                                <option value=2>2</option>
+                                <option value=3>3</option>
+                                <option value=4>4</option>
+                                <option value=5>5+</option>
+                            </select>
+                        </p>
+                        <input id="buttonSendSkill" type="submit" value="Search" />
+                    </div>
+                </form>
+                <!-- Work Form -->
+                <form method="GET" action="" id="advFormWork">
+                    <div id="maindiv">
+                        <div id="divWorkExpTag"><p id="pEduForm">Search by Work Experience</p></div>
+
+                        <p id="pTagsExperience">Years Worked:
+                            <select id="levelWorkExpSelect" name="ywork" type="number">
+                                <option selected value="0">0</option>
+                                <option value=1>1</option>
+                                <option value=2>2</option>
+                                <option value=3>3</option>
+                                <option value=4>4</option>
+                                <option value=5>5+</option>
+                            </select>
+                        </p>
+
+                        <p id="pTagsExperience"><br>Company:<input id="inputCompany" type="text" name="cmpy" placeholder="Company Name"></p>
+
+                        <input id="buttonSendWorkExp" type="submit" value="Search"/>
+                    </div>
+                </form>
+            </div>
+            <!-- Adv Search Button -->
+            <p id='advButtonStyle'><button id="advSearchButton" type="menuexpand" value="" onclick=focusDiv()></button></p>
+        </div>
+
+        <!-- div for search results -->
+        <div id="searchResults">
+            <ul id="userList"></ul>
+        </div>
+    </body>
+    <footer>
+        {% endblock %}
+    </footer>
+    </html>
+

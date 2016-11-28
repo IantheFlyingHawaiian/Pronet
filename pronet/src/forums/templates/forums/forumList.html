@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+{% load thumbnail %}
+
+{% block title %}{{ block.super }}Profile{% endblock %}
+
+{% block navbar-left %}
+  {% include "_navbar.html" with active_link="forums" %}
+{% endblock %}
+
+{% block container %}
+<link rel="stylesheet" href="{{ STATIC_URL }}style.css" />
+
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<!--<div class="floated_img">
+    <img src="http://i.imgur.com/TmSPtDX.png" width = "150" height = "150" alt="Accounting">
+</div> -->
+<div class="floated_img">
+    <a href = "http://localhost:8000/forums/Automotive/"><img src="http://i.imgur.com/R4dqwLf.png" width = "125" height = "125" alt="Automotive"></a>
+</div>
+<div class="floated_img">
+    <a href = "http://localhost:8000/forums/Construction/"><img src="http://i.imgur.com/FGuDIyS.png" width = "125" height = "125" alt="Construction"></a>
+</div>
+<div class="floated_img">
+    <a href = "http://localhost:8000/forums/Culinary/"><img src="http://i.imgur.com/gu0DVTC.png" width = "125" height = "125" alt="Culinary"></a>
+</div>
+<div class="floated_img">
+    <a href = "http://localhost:8000/forums/Design/"><img src="http://i.imgur.com/XZUQfr3.png" width = "125" height = "125" alt="Design"></a>
+</div>
+<div class="floated_img">
+    <a href = "http://localhost:8000/forums/Education/"><img src="http://i.imgur.com/ujSOCC9.png" width = "125" height = "125" alt="Education"></a>
+</div>
+<div class="floated_img">
+    <a href = "http://localhost:8000/forums/Engineering/"><img src="http://i.imgur.com/QqVeodr.png" width = "125" height = "125" alt="Engineering"></a>
+</div>
+<div class="floated_img">
+    <a href = "http://localhost:8000/forums/Finance/"><img src="http://i.imgur.com/YipqjhO.png" width = "125" height = "125" alt="Finance"></a>
+</div>
+<div class="floated_img">
+    <a href = "http://localhost:8000/forums/Freelance/"><img src="http://i.imgur.com/OdRVt5Z.png" width = "125" height = "125" alt="Freelance"></a>
+</div>
+<div class="floated_img">
+    <a href = "http://localhost:8000/forums/Health/"><img src="http://i.imgur.com/8UHiaAT.png" width = "125" height = "125" alt="Health"></a>
+</div>
+<div class="floated_img">
+    <a href = "http://localhost:8000/forums/Hospitality/"><img src="http://i.imgur.com/m0j0Tyc.png" width = "125" height = "125" alt="Hospitality"></a>
+</div>
+<div class="floated_img">
+    <a href = "http://localhost:8000/forums/Insurance/"><img src="http://i.imgur.com/bgcw4Ce.png" width = "125" height = "125" alt="Insurance"></a>
+</div>
+<div class="floated_img">
+    <a href = "http://localhost:8000/forums/Journalism/"><img src="http://i.imgur.com/ymKkkY3.png" width = "125" height = "125" alt="Journalism"></a>
+</div>
+<div class="floated_img">
+    <a href = "http://localhost:8000/forums/Labor/"><img src="http://i.imgur.com/Tm63qDT.png" width = "125" height = "125" alt="Labor"></a>
+</div>
+<div class="floated_img">
+    <a href = "http://localhost:8000/forums/Legal/"><img src="http://i.imgur.com/971luh2.png" width = "125" height = "125" alt="Legal"></a>
+</div>
+<div class="floated_img">
+    <a href = "http://localhost:8000/forums/Management/"><img src="http://i.imgur.com/GKHkS20.png" width = "125" height = "125" alt="Management"></a>
+</div>
+<div class="floated_img">
+    <a href = "http://localhost:8000/forums/Marketing/"><img src="http://i.imgur.com/TQDKYia.png" width = "125" height = "125" alt="Marketing"></a>
+</div>
+<div class="floated_img">
+    <a href = "http://localhost:8000/forums/Retail/"><img src="http://i.imgur.com/Umd1zma.png" width = "125" height = "125" alt="Retail"></a>
+</div>
+<div class="floated_img">
+    <a href = "http://localhost:8000/forums/Sales/"><img src="http://i.imgur.com/mNdQlsM.png" width = "125" height = "125" alt="Sales"></a>
+</div>
+
+
+{% endblock %}

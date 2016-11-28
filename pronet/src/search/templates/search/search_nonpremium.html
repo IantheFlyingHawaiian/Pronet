@@ -1,0 +1,184 @@
+    {% extends "base.html" %}
+    {% load staticfiles %}
+    {% load thumbnail %}
+
+    {% block title %}{{ block.super }}Search{% endblock %}
+
+    {% block container %}
+
+    <html>
+    <head>
+
+        <!-- Javascript functions -->
+        <script>
+            var array_usernames = new Array(10);
+            var array_userlinks = new Array(10);
+            var array_userPics = new Array(10);
+            var count = 0;
+
+            <!-- -->
+            function addUser(userName, userlink, userPic){
+                array_usernames[count] = userName;
+                array_userlinks[count] = userlink;
+                array_userPics[count] = userPic;
+                count++;
+            }
+            <!-- Display Users -->
+            function displayUsers(){
+                console.log("Enter displayUsers");
+                if(count != 0){
+                    setTimeout(function() {
+                        var $list = $("#userList");
+
+                        for (var i = 0; i < count; i++) {
+
+                            var tempuser = array_usernames[i];
+                            var tempuserlink = array_userlinks[i];
+                            var tempphoto = array_userPics[i];
+
+                            if(tempphoto == "/media/"){
+                                tempphoto = "/media/default_profile.png.140x140_q85_crop.png";
+                            }
+
+                            $list.append("<li class='user-list'>"
+                                 + "<a id='" + tempuser + "' href='" + "/users/"
+                                 + tempuserlink + "'>" + "<img id='" + tempuser
+                                 + "photo' class='img-circle img-responsive' src='" + tempphoto
+                                 + "' width='130' height='130'>" + tempuser + "</a></li>");
+                        }
+                    }, 2);
+                }else if(count < 1){
+                    $list.append("<li>No user found</li>")
+                }
+            }
+            function focusDiv(){
+                var e = document.getElementById("advSearchOptions");
+                e.style.display = (e.style.display == 'block') ? 'none' : 'block';
+            }
+        </script>
+
+
+        <!-- Add in all user objects to arrays -->
+        {% if users %}
+            <ul>
+                {% for user in users %}
+                <script>
+                    var userName = "{{ user.user.name }}";
+                    var userlink = "{{ user.slug }}";
+                    var userPic = "/media/" + "{{ user.picture }}";
+
+                    addUser(userName, userlink, userPic);
+                </script>
+                {% endfor %}
+                <script>displayUsers()</script>
+            </ul>
+        {% endif %}
+
+        <!-- reference to CSS here -->
+        <style>
+            body{
+                height: 300px;
+            }
+            footer{
+                margin-top: 1px;
+                box-shadow: 0px 500px 0px 500px #f8f8f8;
+            }
+            #basicSearchBar{
+                height: 60px;
+                text-align: right;
+                margin: 10px 50px 0px 50px;
+                background-color: #e0ffff;
+                margin-left:auto;
+                margin-right:auto;
+                width:960px;
+
+            }
+            #basicSearchText {
+                /* Text box attributes */
+                margin:10px 0px 0px 0px;
+                height: 40px;
+                width: 100px;
+                background-color: white;
+                border:none;
+
+                /* Text attributes */
+                text-align: center;
+                font-size: 12px;
+                border-bottom: 1px solid #BBB;
+
+                /* Transition Attributes */
+                -webkit-transition: width 0.8s ease-in-out;
+            }
+            #basicSearchText:focus {
+                width: 90%;
+                -webkit-transition: width 0.8s ease-in-out;
+            }
+            #basicSearchText:hover{
+                width:90%;
+            }
+            #basicSearchButton{
+                margin: 10px 10px 0px 10px;
+                height: 40px;
+                width: 40px;
+                float: right;
+
+                background: url(https://cdn3.iconfinder.com/data/icons/tango-icon-library/48/system-search-128.png);
+                background-position: center center;
+                background-repeat: no-repeat;
+                background-size: 40px 40px;
+                border: none;
+            }
+            br{
+                line-height: .5em;
+            }
+            #searchResults{
+                height: auto;
+                margin-left: 100px;
+            }
+            .user-list {
+                list-style-type: none;
+                display: inline-block;
+                width: 40%;
+                height: 150px;
+                background-color: #FFFFFF;
+                margin:10px;
+            }
+            .user-list img {
+                float:left;
+                margin-top: 0px;
+                margin-left: 10px;
+                height: 8vw;
+                width: 8vw;
+            }
+            .user-list a {
+                position: relative;
+                top: 30px;
+                left: 10px;
+                font-size:1.5em;
+            }
+            #userList{
+                margin-left: 190px;
+            }
+        </style>
+    </head>
+
+
+    <!-- reference to HTML here -->
+    <body>
+        <!-- div for basic search bar -->
+        <div id="basicSearchBar">
+            <form method="GET" action="">
+                <input id="basicSearchText" type="text" name="npsearch" placeholder="Search Pronet" value="{{request.GET.search}}">
+                <input id="basicSearchButton" type="submit" value="">
+            </form>
+        </div>
+
+        <!-- div for search results -->
+        <div id="searchResults">
+            <ul id="userList"></ul>
+        </div>
+    </body>
+    <footer>
+        {% endblock %}
+    </footer>
+    </html>
