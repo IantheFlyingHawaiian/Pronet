@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+{% load thumbnail %}
+
+{% block title %}{{ block.super }}Profile{% endblock %}
+{% block navbar-left %}
+  {% include "_navbar.html" with active_link="forums" %}
+{% endblock %}
+
+{% block container %}
+<link rel="stylesheet" href="{{ STATIC_URL }}style.css" />
+
+<div class="container">
+    <h1>New Question</h1>
+    <br>
+    <form method="POST" class="post-form">{% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="save btn btn-default">Save</button>
+    </form>
+</div>
+{% endblock %}

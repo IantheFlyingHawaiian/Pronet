@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+{% load thumbnail %}
+
+{% block title %}{{ block.super }}Profile{% endblock %}
+
+{% block navbar-left %}
+  {% include "_navbar.html" with active_link="forums" %}
+{% endblock %}
+
+{% block container %}
+<link rel="stylesheet" href="{{ STATIC_URL }}style.css" />
+
+<div class="container">
+        <button onclick="location.href='{% url 'forums:question_new' topic_value %}'" class="btn btn-primary pull-right">New Question</button>
+        <button onclick="location.href='{% url 'forums:forums'  %}'" class="btn btn-default pull-left">Back</button>
+
+        <br>
+        <br>
+        <h1 class="text-center"> {{ topic_value }}</h1>
+        <br>
+         <div>
+
+                <div>
+
+                        <ul>
+                                {{q}}
+
+                                {% for question in questions reversed %}
+                                <div class='card'>
+                                        <div class="container">
+                                                <a href="{% url 'forums:questions' question.q_topic_id question.id %}" class='qList' style="padding-left: 20px;"> <u>{{ question.question_text }}</u> </li></a>
+                                                <p class="pull-right" style="padding-right: 60px;"> <strong> {{question.author}} </strong> &nbsp;&nbsp; {{question.pub_date}} </p>
+                                                <br>
+                                        </div>
+                                </div>
+                                <br>
+                                {% endfor %}
+
+                        </ul>
+
+                </div>
+
+
+        </div>
+</div>
+{% endblock %}
