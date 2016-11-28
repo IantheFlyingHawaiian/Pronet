@@ -34,7 +34,7 @@ class SignupForm(authtoolsforms.UserCreationForm):
         super(SignupForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.fields["email"].widget.input_type = "email"  # ugly hack
-        premium_flag = forms.BooleanField(label="Premium User")
+        premium_flag = forms.BooleanField(label="Premium User", required=False)
         self.fields["premium_flag"] = premium_flag
 
         self.helper.layout = Layout(
