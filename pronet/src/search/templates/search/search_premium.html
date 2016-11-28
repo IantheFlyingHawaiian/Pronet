@@ -1,0 +1,104 @@
+    {% extends "base.html" %}
+    {% load staticfiles %}
+    {% load thumbnail %}
+
+    {% block title %}{{ block.super }}Search{% endblock %}
+
+    {% block container %}
+
+    <html>
+    <head>
+        <script>
+
+        </script>
+
+        <!-- Add in all user objects to arrays -->
+        {% if users %}
+        <ul>
+            {% for user in users %}
+            <script>
+
+                /* search users by:
+                name
+                link
+                picture
+                bio
+                years worked
+                degree
+                premium
+                resume - search file * extra
+                email
+                 */
+
+                var username = "{{ user.user.name }}";
+                var userlink = "{{ user.slug }}";
+                var userphoto = "{{ user.picture}}";
+                var userbio = "{{ user.bio }}";
+                 //     -TAKE OFF USER MODEL NOW THAT WE HAVE WORK EXPERIENCE-
+                 //     -INCLUDE OR STILL INCLUDE A TOTAL WORK YEARS-
+                var userworkyears = "{{ user.work_years }}";
+                 //     -MAKE EDUCATION MODEL-
+                 //     -REMOVE DEGREE FROM USER PROFILE-
+                var userdegree = "{{ user.degree }}";
+                 // var resume -READ FROM FILE- *Extra if we want to include
+                var userpremium = "{{ user.premium_flag }}";
+                 // connections talk to Jack
+                var useremail = "{{ user.user.email }}";
+
+                console.log("UN: " + username + " UL: " + userlink + " UP: " + userphoto);
+                console.log("UB: " + userbio + " UW: " + userworkyears + " UD: " + userdegree);
+                console.log("US: " + userpremium + " UE: " + useremail);
+            </script>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <!-- Add in all user objects to arrays -->
+        {% if users_work %}
+        <ul>
+            {% for user_work in users_work %}
+            <script>
+
+                /*
+                search work experience by:
+                profile
+                start date
+                end date
+                current
+                location
+                details
+                company
+                title
+                 */
+                //for testing purposes
+                var usernameWork = "{{ user_work.profile }}";
+                //start of search
+                var usernameWorkID = "{{ user_work.profile_id }}";
+                var userStartDate = "{{ user_work.start_date }}";
+                var userEndDate = "{{ user_work.end_date }}";
+                var userCurrent = "{{ user_work.current }}";
+                var userLocation = "{{ user_work.location }}";
+                var userDetails = "{{ user_work.details }}";
+                var userCompany = "{{ user_work.company }}";
+                var userTitle = "{{ user_work.title }}";
+
+                console.log("WORK UN: " +usernameWork + " ID: " + usernameWorkID + " SD: " + userStartDate);
+                console.log("WORK ED: " +userEndDate + " CU: " + userCurrent + " LO: " + userLocation);
+                console.log("WORK DE: " +userDetails + " CO: " + userCompany + " TI: " + userTitle);
+            </script>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+
+        <style>
+
+        </style>
+    </head>
+    <body>
+    </body>
+    <footer>
+        {% endblock %}
+    </footer>
+    </html>
+

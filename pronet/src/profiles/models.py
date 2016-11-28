@@ -16,7 +16,7 @@ class BaseProfile(models.Model):
                                 blank=True)
     bio = models.CharField("Short Bio", max_length=200, blank=True, null=True)
     email_verified = models.BooleanField("Email verified", default=False)
-    work_years = models.DecimalField("Years Worked", max_digits=4, decimal_places=2, blank=True, null=True)
+    work_years = models.DecimalField("Years Worked", max_digits=4, decimal_places=0, blank=True, null=True)
     degree = models.CharField("Degree", max_length=200, blank=True, null=True)
     resume = models.FileField("Resume",
                               upload_to='resumes/%Y-%m-%d/',
@@ -80,3 +80,21 @@ class Connection(models.Model):
 
     def __str__(self):
         return "Connection between {0} and {1}".format(self.profile1, self.profile2)
+
+class SkillExperience(models.Model):
+    profile = models.ForeignKey(Profile)
+    skill_name = models.CharField('Skill', max_length=200)
+    skill_years = models.DecimalField('Years Known', max_digits=4, decimal_places=0, blank=True, null=True)
+    end_photo1 = models.ImageField('Endorser 1', null=True, blank=True)
+    end_photo2 = models.ImageField('Endorser 2', null=True, blank=True)
+    end_photo3 = models.ImageField('Endorser 3', null=True, blank=True)
+    end_photo4 = models.ImageField('Endorser 4', null=True, blank=True)
+    end_count = models.DecimalField('Endorser Count', max_digits=4, decimal_places=0, blank=True, null=True)
+    slug = models.UUIDField(default=uuid.uuid4, blank=True, editable=False)
+
+    def __str__(self):
+        return  "Skill for {0}, with skill {1} for years {2}".format(self.profile, self.skill_name, self.skill_years)
+
+
+    class Meta:
+        ordering = ['-skill_name', '-skill_years', '-end_count']

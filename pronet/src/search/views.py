@@ -4,34 +4,61 @@ from django.template import loader
 from django.shortcuts import render
 from profiles import models
 
+class Search(generic.TemplateView):
+    def get(self, request):
+        template_premium = "search/search_premium.html"
+        template_nonpremium = "search/search_nonpremium.html"
 
-def search(request):
-    template_name = "search/search_it.html"
-    users = models.Profile.objects.all()
-    context = {'users': users}
-    return render(request, template_name, context)
-    '''
-    class ShowProfile(LoginRequiredMixin, generic.TemplateView):
-    template_name = "profiles/show_profile.html"
-    http_method_names = ['get']
+        currentuser = self.request.user
+        queryset = models.Profile.objects.all()
+        queryset_work = models.WorkExperience.objects.all()
 
-    def get(self, request, *args, **kwargs):
-        slug = self.kwargs.get('slug')
-        if slug:
-            profile = get_object_or_404(models.Profile, slug=slug)
-            user = profile.user
+        exists = models.Profile.objects.filter(user=currentuser, premium_flag=True).exists()
+
+        npquery = request.GET.get("np-search")
+        if npquery:
+            queryset = queryset.filter(user__name__icontains=npquery)
+
+        pquery_name = request.GET.get("search")
+        if pquery_name:
+            queryset = queryset.filter(user__name__icontains=pquery_name)
+
+        pquery_degree = request.GET.get("deg")
+        if pquery_degree:
+            queryset = queryset.filter(degree__icontains=pquery_degree)
+
+        '''
+        pquery_school = request.GET.get("schl")
+        if pquery_school:
+            queryset = queryset.filter(user__name__icontains=pquery_school)
+
+        pquery_level = request.GET.get("edu")
+        if pquery_level:
+            queryset = queryset.filter(user__name__icontains=pquery_level)
+        '''
+
+        '''
+        pquery_skill = request.GET.get("skill")
+        if pquery_skill:
+            queryset = queryset.filter(user__name__icontains=pquery_skill)
+
+        pquery_years = request.GET.get("yskill")
+        if pquery_years:
+            queryset = queryset.filter(user__name__icontains=pquery_years)
+        '''
+
+        pquery_ywork = request.GET.get("ywork")
+        if pquery_ywork:
+            workyearnum = int(pquery_ywork)
+            queryset = queryset.filter(work_years__gte = workyearnum)
+
+        '''
+        pquery_company = request.GET.get("cmpy")
+        if pquery_company:
+            queryset_work = queryset_work.filter(company__icontains=pquery_company)
+        '''
+
+        if exists:
+            return render(request, template_premium, {'users': queryset, 'users_work': queryset_work, 'currentuser':currentuser})
         else:
-            user = self.request.user
-
-        if user == self.request.user:
-            kwargs["editable"] = True
-        kwargs["show_user"] = user
-        return super(ShowProfile, self).get(request, *args, **kwargs)
-
-    users = models.Profile.objects.all()
-    template = loader.get_template('search/search_it.html')
-    context = { 'users':users }
-
-    print(context)
-    return HttpResponse(template.render(context, request))
-    '''
+            return render(request, template_nonpremium, {'users': queryset, 'currentuser':currentuser})

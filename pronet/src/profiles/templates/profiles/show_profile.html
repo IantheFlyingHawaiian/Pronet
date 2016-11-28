@@ -120,7 +120,41 @@
                                 <span class="glyphicon glyphicon-edit" aria-hidden="true" title="Edit Work Experience"></span> <span class="sr-only">Edit</span>
                             </a>
                             <a href="{% url 'profiles:delete_work_self' w.slug %}">
-                                <span class="glyphicon glyphicon-remove" aria-hidden="true" title="Edit Work Experience"></span> <span class="sr-only">Delete</span>
+                                <span class="glyphicon glyphicon-remove" aria-hidden="true" title="Delete Work Experience"></span> <span class="sr-only">Delete</span>
+                            </a>
+                        {% endif %}
+                	</div>
+                {% endfor %}
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    {{ show_user.get_full_name }}'s Skills
+                    {% if editable %}
+                        <a href="{% url 'profiles:add_skill_self' %}">
+                            <span class="glyphicon glyphicon-plus-sign" aria-hidden="true" title="Add Skill Experience"></span>
+                	    	<span class="sr-only">Add</span>
+                        </a>
+                    {% endif %}
+            	</div>
+                {% if not show_user.profile.skillexperience_set.all %}
+                    <div class="panel-body">
+                            No skills have been added yet!
+                    </div>
+                {% endif %}
+                {% for w in show_user.profile.skillexperience_set.all %}
+                    <div class="panel-body">
+                        <strong>{{ w.skill_name }}</strong>
+                        {% if w.skill_years %}
+                            <p>Years Experience: {{ w.skill_years }}</p>
+                        {% else %}
+                            <p>   </p>
+                        {% endif %}
+                        {% if editable %}
+                    	    <a href="{% url 'profiles:edit_skill_self' w.slug %}">
+                                <span class="glyphicon glyphicon-edit" aria-hidden="true" title="Edit Skill Experience"></span> <span class="sr-only">Edit</span>
+                            </a>
+                            <a href="{% url 'profiles:delete_skill_self' w.slug %}">
+                                <span class="glyphicon glyphicon-remove" aria-hidden="true" title="Delete Skill Experience"></span> <span class="sr-only">Delete</span>
                             </a>
                         {% endif %}
                 	</div>
