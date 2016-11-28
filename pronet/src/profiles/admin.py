@@ -1,7 +1,7 @@
 from __future__ import unicode_literals
 from django.contrib import admin
 from authtools.admin import NamedUserAdmin
-from .models import Profile, WorkExperience
+from .models import Profile, WorkExperience, SkillExperience
 from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
 
@@ -30,3 +30,4 @@ class NewUserAdmin(NamedUserAdmin):
 admin.site.unregister(User)
 admin.site.register(User, NewUserAdmin)
 admin.site.register(WorkExperience)
+admin.site.register(SkillExperience)

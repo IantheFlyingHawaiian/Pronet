@@ -10,4 +10,7 @@ urlpatterns = [
     url(r'^me/work/add$', views.AddWorkExperience.as_view(), name='add_work_self'),
     url(r'^me/work/edit\/(?P<slug>[\w\-]+)$', views.EditWorkExperience.as_view(), name='edit_work_self'),
     url(r'^me/work/delete\/(?P<slug>[\w\-]+)$', views.DeleteWorkExperience.as_view(), name='delete_work_self'),
+    url(r'^me/skill/add$', views.AddSkillExperience.as_view(), name='add_skill_self'),
+    url(r'^me/skill/edit\/(?P<slug>[\w\-]+)$', views.EditSkillExperience.as_view(), name='edit_skill_self'),
+    url(r'^me/skill/delete\/(?P<slug>[\w\-]+)$', views.DeleteSkillExperience.as_view(), name='delete_skill_self'),
 ]
