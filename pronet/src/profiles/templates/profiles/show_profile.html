@@ -5,6 +5,10 @@
 
 {% block title %}{{ block.super }}Profile{% endblock %}
 
+{% block navbar-left %}
+  {% include "_navbar.html" %}
+{% endblock %}
+
 {% block container %}
 
 <head>
@@ -48,7 +52,7 @@
     <div class="row">
         <div class="col-sm-4">
             <ul class="list-group">
-                <li class="list-group-item text-muted">Profile</li>
+                <li class="list-group-item text-muted" style="background-color: #f5f5f5; margin-top:10px;">Profile</li>
                 <li class="list-group-item text-right"><span class="pull-left"><strong>Email:</strong></span> {{ show_user.email|default:"missing" }}
             	    {% if show_user.profile.email_verified %}
                 	    <span class="glyphicon glyphicon-ok-circle" aria-hidden="true" title="This email address has been verified"></span>
@@ -65,7 +69,7 @@
         </div>
         <div class="col-sm-8">
             <div class="panel panel-default">
-                <div class="panel-heading">{{ show_user.get_full_name }}'s Profile
+                <div class="panel-heading" style="margin-top:10px;">{{ show_user.get_full_name }}'s Profile
                 	{% if show_user.profile.slug %}
                 	    <a href="{% url 'profiles:show' show_user.profile.slug %}">
             	    	<span class="glyphicon glyphicon-link" aria-hidden="true" title="Profile permalink"></span>
@@ -149,9 +153,9 @@
                     <div class="panel-body">
                         <strong>{{ w.skill_name }}</strong>
                         {% if w.skill_years %}
-                            <p>Years Experience: {{ w.skill_years }}</p>
+                            <p>Years Experience: {{ w.skill_years }} <span style="display:inline-block; margin-left: 40px;">Endorsers: {{ w.end_count}}</span></p>
                         {% else %}
-                            <p>   </p>
+                            <p><span style="display:inline-block; margin-left: 155px;">Endorsers: {{ w.end_count}}</span></p>
                         {% endif %}
                         {% if editable %}
                     	    <a href="{% url 'profiles:edit_skill_self' w.slug %}">
