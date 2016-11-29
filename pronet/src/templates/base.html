@@ -44,7 +44,7 @@
           </button>
           <a class="navbar-brand" href="{% url 'home' %}">
             {% block navbar-brand %}
-              <img src="{% static 'site/img/navbar_logo.png' %}" alt="logo" width="30" height="30">
+              <img src="{% static 'site/img/navbar_logo.png' %}" alt="logo" width="30" height="30"/>
               {% include "_brandname.html" %}
             {% endblock %}
           </a>
@@ -109,7 +109,6 @@
     {% endblock splash %}
 
     {% block container %}
-    <!--
     <div class="container">
 
       <div class="starter-template">
@@ -117,8 +116,7 @@
         <p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p>
       </div>
 
-    </div>--><!-- /.container -->
-
+    </div><!-- /.container -->
     {% endblock container %}
 
     <!-- Site footer -->
