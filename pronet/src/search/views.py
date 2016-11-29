@@ -50,7 +50,11 @@ class Search(generic.TemplateView):
        for user in queryset_skill:
            queryset = queryset.filter(user__profile=user.profile)
 
-
+       if exists:
+           return render(request, template_premium, {'users': queryset, 'currentuser': currentuser})
+       else:
+           return render(request, template_nonpremium, {'users': queryset, 'currentuser': currentuser})
+'''
        #SEARCH by WORK EXPERIENCE
        pquery_yearWorkExp = request.GET.get("ywork")
        pquery_company = request.GET.get("cmpy")
@@ -72,9 +76,5 @@ class Search(generic.TemplateView):
 
        if pquery_yearWorkExp == None:
            queryset = None
+'''
 
-
-       if exists:
-           return render(request, template_premium, {'users': queryset, 'currentuser': currentuser})
-       else:
-           return render(request, template_nonpremium, {'users': queryset, 'currentuser': currentuser})

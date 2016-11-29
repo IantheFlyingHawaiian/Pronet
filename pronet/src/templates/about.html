@@ -9,13 +9,15 @@
   {% include "_navbar.html" with active_link="about" %}
 {% endblock %}
 
+
 <!-- Benefits of the Django application -->
 {% block container %}
 
-<div id="sec1" class="text-page">
+<div class="backgound" style="position: relative; z-index: 1; height:200px">
+  <img class="backgroundimg" src="{% static 'site/img/background.jpg' %}" width="100%" height="150%" style="position: absolute; top: -40px; z-index: 2; margin-top: 40px;"/>
   <div class="container">
     <div class="row">
-      <div class="col-md-12 text-center">
+      <div class="col-md-12 text-center"  align="center" style="position: relative; top:90px;  z-index: 3;">
         <h1>{% include "_brandname.html" %}</h1>
         <p class="lead">Improved networking, for professionals.</p>
       </div>
@@ -23,16 +25,16 @@
   </div>
 </div>
 
-<div id="sec2" class="text-page">
+<div id="sec2" class="text-page" style="position: relative; z-index: 4;">
   <div class="container">
     <div class="row">
-      <div class="col-md-12 text-center">
+      <div class="col-md-12 text-center" align="center" style="position: relative; top:0px;  z-index: 5;">
         <h2>About The Team</h2>
         <p class="lead">From CMPE/SE 133 Section 1, Fall 2016.</p>
       </div>
     </div>
     <div class="row">
-      <div class="col-lg-4">
+      <div class="col-lg-4"  align="left" style="position: relative; top: 0px; z-index: 6;">
         <h2>Team Ian</h2>
         <p>A team put together from students from Professor Meng's software engineering 2 course, doing their best to create a web application in a single semester in addition to other classes.</p>
       </div>
@@ -40,5 +42,5 @@
     </div>
   </div>
 </div>
-
 {% endblock container %}
+
