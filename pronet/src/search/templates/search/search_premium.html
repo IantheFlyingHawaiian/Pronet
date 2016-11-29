@@ -87,6 +87,7 @@
         <style>
             body{
                 height:300px;
+                background-color: #FFFFFF;
             }
             footer{
                 margin-top: 100px;
@@ -140,7 +141,7 @@
             #advSearchBar{
                 height: 100px;
                 text-align: right;
-                background-color: #F5F5DC;
+                background-color: #D1EEEE;
                 margin-left:auto;
                 margin-right:auto;
                 width:960px;
@@ -153,7 +154,7 @@
             }
             #advFormEducation{
                 float:left;
-                background-color: #ffffe6;
+                background-color: #BFEFFF;
                 height: 220px;
                 width: 300px;
             }
@@ -165,13 +166,13 @@
             }
             #advFormWork{
                 float:left;
-                background-color: #ffffe6;
+                background-color: #BFEFFF;
                 height: 220px;
                 width: 300px;
             }
             #advButtonStyle{
                 clear:right;
-                background-color: #a2a2a2;
+                background-color: #00C5CD;
             }
             #advSearchButton{
                 margin-right:10px;
@@ -256,7 +257,7 @@
                 margin-right: auto;
                 text-align: center;
                 margin-top: 0px;
-                background-color: #f5e79e;
+                background-color: #ebf0fa;
                 border-color: #3A7734;
             }
             #divSkillTag{
@@ -266,7 +267,7 @@
                 margin-right: auto;
                 text-align: center;
                 margin-top: 0px;
-                background-color: #f5e79e;
+                background-color: #D1EEEE;
                 border-color: #3A7734;
             }
             #divWorkExpTag{
@@ -276,7 +277,7 @@
                 margin-right: auto;
                 text-align: center;
                 margin-top: 0px;
-                background-color: #f5e79e;
+                background-color: #ebf0fa;
                 border-color: #3A7734;
             }
             #pTags{
@@ -353,16 +354,16 @@
     <body>
         <!-- div for basic search bar -->
         <div id="basicSearchBar">
-            <form method="GET" action="" ><!--- onsubmit="return false"> -->
+            <form method="GET" action=""><!--- onsubmit="return false"> -->
                 <input id="basicSearchText" type="text" name="npsearch" placeholder="Search Pronet" value="{{request.GET.search}}">
-                <input id="basicSearchButton" type="submit" value="" >
+                <input id="basicSearchButton" type="submit" value="">
             </form>
         </div>
         <!-- div for advanced searching -->
         <div id="advSearchBar">
             <div id="advSearchOptions">
                 <!-- Education Form -->
-                <form method="GET" action="" id="advFormEducation">
+                <form method="GET" action="" id="advFormEducation" >
                     <div id="maindiv">
                         <!--<input id="inputSearchEdu" type="text" name="search" placeholder="Education"> -->
                         <div id="divEduTag"><p id="pEduForm">Search by Education</p></div>
