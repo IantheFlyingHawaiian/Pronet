@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="{% block description %}{% endblock description %}">
     <meta name="author" content="Arun Ravindran">
-    <link rel="shortcut icon" href="{% static 'site/img/logo.jpg' %}">
+    <link rel="shortcut icon" href="{% static 'site/img/shortcut_icon.jpg' %}">
 
     <title>{% block title %}{% include "_brandname.html" %} :: {% endblock %}</title>
 
@@ -44,7 +44,7 @@
           </button>
           <a class="navbar-brand" href="{% url 'home' %}">
             {% block navbar-brand %}
-              <img src="{% static 'site/img/pn_logo_clean2.png' %}" alt="logo" width="30" height="30">
+              <img src="{% static 'site/img/navbar_logo.png' %}" alt="logo" width="30" height="30">
               {% include "_brandname.html" %}
             {% endblock %}
           </a>
@@ -109,6 +109,7 @@
     {% endblock splash %}
 
     {% block container %}
+    <!--
     <div class="container">
 
       <div class="starter-template">
@@ -116,7 +117,8 @@
         <p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p>
       </div>
 
-    </div><!-- /.container -->
+    </div>--><!-- /.container -->
+
     {% endblock container %}
 
     <!-- Site footer -->
