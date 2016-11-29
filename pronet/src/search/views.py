@@ -2,63 +2,79 @@ from django.http import HttpResponse
 from django.views import generic
 from django.template import loader
 from django.shortcuts import render
+from django.db.models import Q
+from itertools import chain
+import itertools
 from profiles import models
+from decimal import Decimal
 
 class Search(generic.TemplateView):
-    def get(self, request):
-        template_premium = "search/search_premium.html"
-        template_nonpremium = "search/search_nonpremium.html"
+   def get(self, request):
+       template_premium = "search/search_premium.html"
+       template_nonpremium = "search/search_nonpremium.html"
 
-        currentuser = self.request.user
-        queryset = models.Profile.objects.all()
-        queryset_work = models.WorkExperience.objects.all()
+       currentuser = self.request.user
+       queryset_work = models.WorkExperience.objects.all()
+       queryset_skill = models.SkillExperience.objects.all()
+       queryset_education = models.University.objects.all()
+       queryset = models.Profile.objects.all()
 
-        exists = models.Profile.objects.filter(user=currentuser, premium_flag=True).exists()
+       exists = models.Profile.objects.filter(user=currentuser, premium_flag=True).exists()
 
-        npquery = request.GET.get("np-search")
-        if npquery:
-            queryset = queryset.filter(user__name__icontains=npquery)
+       #username search
+       npquery = request.GET.get("npsearch")
+       pquery = request.GET.get("psearch")
+       if npquery:
+           queryset = queryset.filter(Q(user__name__icontains=npquery))
+       if pquery:
+           queryset = queryset.filter(Q(user__name__icontains=pquery))
 
-        pquery_name = request.GET.get("search")
-        if pquery_name:
-            queryset = queryset.filter(user__name__icontains=pquery_name)
+       #SEARCH by EDUCATION
+       pquery_degree = request.GET.get("degree")
+       if pquery_degree:
+           queryset = queryset.filter(Q(degree__icontains=pquery_degree))
 
-        pquery_degree = request.GET.get("deg")
-        if pquery_degree:
-            queryset = queryset.filter(degree__icontains=pquery_degree)
+       #SEARCH by SKILLS
+       pquery_skill = request.GET.get("skill")
+       pquery_years = request.GET.get("yskill")
+       if pquery_years:
+           pquery_years = Decimal(pquery_years)
 
-        '''
-        pquery_school = request.GET.get("schl")
-        if pquery_school:
-            queryset = queryset.filter(user__name__icontains=pquery_school)
+       if pquery_skill != None and pquery_years != 0:
+           queryset_skill = queryset_skill.filter(Q(skill_name__icontains=pquery_skill) &
+                                        Q(skill_years__gte=pquery_years))
 
-        pquery_level = request.GET.get("edu")
-        if pquery_level:
-            queryset = queryset.filter(user__name__icontains=pquery_level)
-        '''
+       if pquery_skill != None and pquery_years == 0:
+           queryset_skill = queryset_skill.filter(Q(skill_name__icontains=pquery_skill))
 
-        '''
-        pquery_skill = request.GET.get("skill")
-        if pquery_skill:
-            queryset = queryset.filter(user__name__icontains=pquery_skill)
+       for user in queryset_skill:
+           queryset = queryset.filter(user__profile=user.profile)
 
-        pquery_years = request.GET.get("yskill")
-        if pquery_years:
-            queryset = queryset.filter(user__name__icontains=pquery_years)
-        '''
 
-        pquery_ywork = request.GET.get("ywork")
-        if pquery_ywork:
-            workyearnum = int(pquery_ywork)
-            queryset = queryset.filter(work_years__gte = workyearnum)
+       #SEARCH by WORK EXPERIENCE
+       pquery_yearWorkExp = request.GET.get("ywork")
+       pquery_company = request.GET.get("cmpy")
+       if pquery_yearWorkExp:
+            pquery_yearWorkExp = Decimal(pquery_yearWorkExp)
 
-        '''
-        pquery_company = request.GET.get("cmpy")
-        if pquery_company:
-            queryset_work = queryset_work.filter(company__icontains=pquery_company)
-        '''
+       if pquery_company != None and pquery_yearWorkExp != 0:
+           queryset_work = queryset_work.filter(Q(company__icontains=pquery_company))#include pquery_yearWorkExp
 
-        if exists:
-            return render(request, template_premium, {'users': queryset, 'users_work': queryset_work, 'currentuser':currentuser})
-        else:
-            return render(request, template_nonpremium, {'users': queryset, 'currentuser':currentuser})
+       if pquery_company != None and pquery_yearWorkExp == 0:
+           queryset_work = queryset_work.filter(Q(company__icontains=pquery_company))
+
+       for user in queryset_work:
+           queryset = queryset.filter(user__profile=user.profile)
+
+
+       if pquery_skill == None:
+           queryset = None
+
+       if pquery_yearWorkExp == None:
+           queryset = None
+
+
+       if exists:
+           return render(request, template_premium, {'users': queryset, 'currentuser': currentuser})
+       else:
+           return render(request, template_nonpremium, {'users': queryset, 'currentuser': currentuser})

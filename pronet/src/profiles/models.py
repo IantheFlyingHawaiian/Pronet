@@ -45,11 +45,28 @@ class University(models.Model):
     website = models.CharField("Website", max_length=200, blank=True, null=True)
 
     def __str__(self):
-        return "{0}, {1} ({2})".format(self.country, self.name, self.website)
-
+        return "{0}, {1}, {2}".format(self.country, self.name, self.website)
 
     class Meta:
         ordering = ['country', 'name']
+
+
+class SkillExperience(models.Model):
+    profile = models.ForeignKey(Profile)
+    skill_name = models.CharField('Skill', max_length=200)
+    skill_years = models.DecimalField('Years Known', max_digits=4, decimal_places=0, blank=True, null=True)
+    end_photo1 = models.ImageField('Endorser 1', null=True, blank=True)
+    end_photo2 = models.ImageField('Endorser 2', null=True, blank=True)
+    end_photo3 = models.ImageField('Endorser 3', null=True, blank=True)
+    end_photo4 = models.ImageField('Endorser 4', null=True, blank=True)
+    end_count = models.DecimalField('Endorser Count', max_digits=4, decimal_places=0, blank=True, null=True)
+    slug = models.UUIDField(default=uuid.uuid4, blank=True, editable=False)
+
+    def __str__(self):
+        return "Skill for {0}, with skill {1} for years {2}".format(self.profile, self.skill_name, self.skill_years)
+
+    class Meta:
+        ordering = ['-skill_name', '-skill_years', '-end_count']
 
 
 class WorkExperience(models.Model):
@@ -64,7 +81,7 @@ class WorkExperience(models.Model):
     slug = models.UUIDField(default=uuid.uuid4, blank=True, editable=False)
 
     def __str__(self):
-        return  "Work for {0}, started {1}, at {2}".format(self.profile, self.start_date, self.company)
+        return "Work for {0}, started {1}, at {2}".format(self.profile, self.start_date, self.company)
 
 
     class Meta:

@@ -10,7 +10,7 @@
 {% block container %}
 
 <div class="container">
-    <h1 class="text-primary">Edit Work Experience</h1>
+    <h1 class="text-primary">Add Skill Experience</h1>
     <hr>
     <div class="row">
         <!-- left column -->
@@ -23,7 +23,7 @@
         <!-- edit form column -->
         <div class="col-md-9">
             <form method="post">{% csrf_token %}
-                {% crispy workexperience_form %}
+                {% crispy skillexperience_form %}
             </form>
         </div>
     </div>
